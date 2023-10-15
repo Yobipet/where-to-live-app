@@ -2,7 +2,7 @@
 Class: Manager
 Author: Samdine Murray, Dylan Potter, Henry Sanders, Nole Liu
 Created: 10/2/2023
-Last Modified: 10/6/2023
+Last Modified: 10/15/2023
 
 Purpose: This class contains most of the calculation methods and is the central class that communicates
 between all classes.
@@ -11,12 +11,15 @@ Attributes: -tierList: int[]
             -data: MapData()
             -regionFile: File
             -database: ArrayList<ArrayList<String>>()
+            -questions: File
 
 Methods: +tierListAdd(): void
          +parseDatabase(): void
+         +printQuestions(): void
  */
 
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,11 +29,13 @@ public class Manager {
     private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
+    private File questions = new File("Questions.txt");
 
     // Methods
     public void runProgram() {
-        parseDatabase();
-        testCase();
+        //parseDatabase();
+        //testCase();
+        printQuestions();
     }
     public void testCase() {
         System.out.println("Which state would you like to examine?");
@@ -73,5 +78,18 @@ public class Manager {
     }
     public void tierListAdd() {
 
+    }
+    // Reads the Questions text file and prints them out
+    public void printQuestions() {
+        try {
+            FileReader fr = new FileReader(questions);
+            BufferedReader br = new BufferedReader(fr);
+            for(int i = 0; i < 16; i++) {
+                String row = br.readLine();
+                System.out.println(row);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
