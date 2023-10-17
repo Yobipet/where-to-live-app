@@ -1,0 +1,16 @@
+1) What Violent Crime Rate (per 100,000 people) are you comfortable with?
+2) What Nation Risk Index Score are you comfortable with?
+3) What average high temperature do you prefer?
+4) What average low temperature do you prefer?
+5) What would you like the average percentage of housing vacancy to be?
+6) What would you like the high graduation rate to be?
+7) What amount of state tax do you prefer?
+8) What would you prefer the population density to be?
+9) What would you prefer the cost of living to be?
+10) What would you prefer the average cost of healthcare to be?
+11) Do you have a preference for political stance (1 = Democrat, 5 = Republican)?
+12) Do you have a preference of the percentage of racial minorities?
+13) Do you have a preference of the average age?
+14) How important is the quality of LGBT healthcare (1 = very bad, 5 =  very good)?
+15) Would you like to live in an area where weed is legal?
+

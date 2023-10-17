@@ -2,7 +2,7 @@
 Class: Manager
 Author: Samdine Murray, Dylan Potter, Henry Sanders, Nole Liu
 Created: 10/2/2023
-Last Modified: 10/6/2023
+Last Modified: 10/15/2023
 
 Purpose: This class contains most of the calculation methods and is the central class that communicates
 between all classes.
@@ -17,6 +17,7 @@ Methods: +tierListAdd(): void
  */
 
 import java.io.*;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -27,10 +28,11 @@ public class Manager {
     private File regionFile = new File("RegionDatabase.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
 
+
     // Methods
     public void runProgram() {
-        parseDatabase();
-        testCase();
+        //parseDatabase();
+        //testCase();
     }
     public void testCase() {
         System.out.println("Which state would you like to examine?");
@@ -71,7 +73,9 @@ public class Manager {
             e.printStackTrace();
         }
     }
+
     public void tierListAdd() {
 
     }
+
 }
