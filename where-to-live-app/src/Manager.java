@@ -11,11 +11,9 @@ Attributes: -tierList: int[]
             -data: MapData()
             -regionFile: File
             -database: ArrayList<ArrayList<String>>()
-            -questions: File
 
 Methods: +tierListAdd(): void
          +parseDatabase(): void
-         +printQuestions(): void
  */
 
 import java.io.*;
@@ -29,13 +27,12 @@ public class Manager {
     private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
-    private File questions = new File("Questions.txt");
+
 
     // Methods
     public void runProgram() {
         //parseDatabase();
         //testCase();
-        printQuestions();
     }
     public void testCase() {
         System.out.println("Which state would you like to examine?");
@@ -76,20 +73,9 @@ public class Manager {
             e.printStackTrace();
         }
     }
+
     public void tierListAdd() {
 
     }
-    // Reads the Questions text file and prints them out
-    public void printQuestions() {
-        try {
-            FileReader fr = new FileReader(questions);
-            BufferedReader br = new BufferedReader(fr);
-            for(int i = 0; i < 16; i++) {
-                String row = br.readLine();
-                System.out.println(row);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 }

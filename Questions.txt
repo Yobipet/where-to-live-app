@@ -1,5 +1,5 @@
-1) What would you like the Violent Crime Rate (per 100,000 people) to be?
-2) What would you like the Nation Risk Index Score to be?
+1) What Violent Crime Rate (per 100,000 people) are you comfortable with?
+2) What Nation Risk Index Score are you comfortable with?
 3) What average high temperature do you prefer?
 4) What average low temperature do you prefer?
 5) What would you like the average housing vacancy to be (%)?
@@ -12,6 +12,6 @@
 12) Percentage of Racial Minorities?
 13) Average Age?
 14) Quality of LGBT Healthcare?
-15) Recreational Weed Use?
-16) Medicinal Weed Use?
+15) Would you like recreational weed use to be legal?
+16) Would you like medicinal weed use to be legal?
 
