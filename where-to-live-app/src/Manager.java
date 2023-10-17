@@ -30,7 +30,9 @@ public class Manager {
     // Methods
     public void runProgram() {
         parseDatabase();
+        new Menu();
         testCase();
+
     }
     public void testCase() {
         System.out.println("Which state would you like to examine?");
