@@ -13,6 +13,11 @@ Methods: +answerListAdd(): void
          +printQuestions(): String
          +printAnswers(): String
  */
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.awt.*;
 public class Questionnaire {
     Frame q = new Frame();
     Questionnaire() {
@@ -28,7 +33,7 @@ public class Questionnaire {
     Label l;
     private void questionUI(){
         while (questionNumber < 16) {
-            l = new Label(printQuestion(questionNumber));
+            l = new Label(printQuestions(questionNumber));
             l.setBounds(x, y, w, h);
             q.add(new Label("question" + questionNumber + 1));
             questionNumber++;
