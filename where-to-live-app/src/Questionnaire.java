@@ -98,8 +98,9 @@ public class Questionnaire {
         s.addChangeListener(this::sliderReturn);
     }
     public int sliderReturn(ChangeEvent e){
+        String temp = "";
         if (e.getSource() == s){
-            return s.getValue();
+            answerListAdd(temp.valueOf(s.getValue()));
         }
         return 0;
     }
@@ -111,7 +112,7 @@ public class Questionnaire {
     }
     public Object selectReturn(ItemEvent e){
         if (e.getSource() == c){
-            return c.getSelectedItem();
+            answerListAdd(c.getSelectedItem().toString());
         }
         return null;
     }
@@ -122,7 +123,7 @@ public class Questionnaire {
     }
     public String textReturn(ActionEvent e){
         if (e.getSource() == t){
-            return t.getText();
+             answerListAdd(t.getText());
         }
         return null;
     }
