@@ -18,7 +18,7 @@ import java.awt.*;
 public class Menu {
     Menu() {
         Frame f = new Frame();
-        f.setSize(1920,1080);
+        f.setSize(1600,800);
         Label l1 = new Label("Where To Live App");
         l1.setBounds(100, 100, 100, 50);
         f.add(l1);
@@ -37,16 +37,27 @@ public class Menu {
         f.setLayout(null);
         f.setVisible(true);
         b1.addActionListener(this::pressStart);
+        b2.addActionListener(this::pressMap);
+        b3.addActionListener(this::pressCredits);
         b4.addActionListener(this::pressExit);
     }
     public void pressStart(ActionEvent e) {
         new Questionnaire();
     }
-    public void pressMap() {
-
+    public void pressMap(ActionEvent e) {
+        new Map();
     }
-    public void pressCredits() {
-
+    Frame c = new Frame();
+    public void pressCredits(ActionEvent e) {
+        c.setSize(1600,800);
+        c.show();
+        Button b5 = new Button("BACK");
+        b5.setBounds(100, 100, 400, 50);
+        c.add(b5);
+        b5.addActionListener(this::pressBack);
+    }
+    public void pressBack(ActionEvent e) {
+        c.hide();
     }
     public void pressExit(ActionEvent e) {
         System.exit(0);
