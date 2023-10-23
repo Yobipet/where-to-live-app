@@ -84,8 +84,10 @@ public class Questionnaire {
         }
     }
     private void slider(){
-        min = 0;
-        max = 50;
+        String temp = printAnswers(questionNumber);
+        String[] line = temp.split(",");
+        min = (int) Math.floor(Double.parseDouble(line[1]));
+        max = (int) Math.ceil(Double.parseDouble(line[2]));
         int length = printQuestions(questionNumber).length();
         s = new JSlider(min, max, (min + max)/2);
         s.setBounds(x + 450,y,w / 2,40);
@@ -93,8 +95,8 @@ public class Questionnaire {
         s.setPaintTrack(true);
         s.setPaintTicks(true);
         s.setPaintLabels(true);
-        s.setMajorTickSpacing(50);
-        s.setMinorTickSpacing(5);
+        s.setMajorTickSpacing((max-min)/5);
+        s.setMinorTickSpacing((max-min)/10);
         s.addChangeListener(this::sliderReturn);
     }
     public int sliderReturn(ChangeEvent e){
@@ -105,7 +107,9 @@ public class Questionnaire {
         return 0;
     }
     private void select(){
-        String choices[] = {"1", "2", "3", "4"};
+        String temp = printAnswers(questionNumber);
+        String[] line = temp.split(",");
+        String choices[] = {line[1], line[2], line[3], line[4], line[5]};
         c = new JComboBox(choices);
         c.setBounds(x + 450, y, w / 2, 40);
         c.addItemListener(this::selectReturn);
@@ -129,15 +133,23 @@ public class Questionnaire {
     }
     private ArrayList<String> answers = new ArrayList<String>();
     private File questions = new File("Questions.txt");
+    private File answerOptions = new File("AnswerOptions.csv");
 
     public void answerListAdd(String answer) {
         answers.add(answer);
     }
     // Reads the AnswerOptions text file and returns a specific answer
-    public String printAnswers() {
+    public String printAnswers(int questionNumber) {
         String row = "";
-
-
+        try {
+            FileReader fr = new FileReader(answerOptions);
+            BufferedReader br = new BufferedReader(fr);
+            for(int i = 0; i < questionNumber; i++) {
+                row = br.readLine();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return row;
     }
     // Reads the Questions text file and returns a specific question

@@ -26,7 +26,6 @@ public class Map {
         b1.setBounds(1400, 700, 400, 50);
         m.add(b1);
         b1.addActionListener(this::pressBack);
-        J
     }
     private void pressBack(ActionEvent e) {
         m.hide();
