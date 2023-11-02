@@ -2,7 +2,7 @@
 Class: Manager
 Author: Samdine Murray, Dylan Potter, Henry Sanders, Nole Liu
 Created: 10/2/2023
-Last Modified: 10/6/2023
+Last Modified: 11/2/2023
 
 Purpose: This class contains most of the calculation methods and is the central class that communicates
 between all classes.
@@ -11,9 +11,16 @@ Attributes: -tierList: int[]
             -data: MapData()
             -regionFile: File
             -database: ArrayList<ArrayList<String>>()
+            -answers: ArrayList<String>()
+            -questionnaire: Questionnaire
+            -finishflag: boolean
+            -startFlag: boolean
+            -qFlag: boolean
 
-Methods: +tierListAdd(): void
+Methods: +formatUserAnswers(): void
          +parseDatabase(): void
+         +runProgram(): void
+         +createQuestionnaire: void
  */
 
 import java.io.*;
@@ -23,35 +30,34 @@ import java.util.Scanner;
 
 public class Manager {
     // Attributes
-    private int[] tierList;
+    private ArrayList<ArrayList<Double>> tierList = new ArrayList<>();
     private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
+    private ArrayList<String> answers;
+    private Questionnaire questionnaire;
+    private boolean finishFlag = false;
+    private boolean startFlag = false;
+    private boolean qFlag = false;
 
     // Methods
     public void runProgram() {
         parseDatabase();
-        new Menu();
-        testCase();
-
-    }
-    public void testCase() {
-        System.out.println("Which state would you like to examine?");
-        Scanner ans = new Scanner(System.in);
-        String reqState = ans.next();
-        System.out.println("Would you like to know (answer with letter)\na) The Violent Crime Rate [per 100,000 people]\nb) The National Risk Index Score\nc) The Avg High Temp (F)\nd) The Avg Low Temp (F)\ne) The Avg Housing Price ($)\nf) The Housing Vacancy (%)");
-        ans.nextLine();
-        String reqData = ans.nextLine();
-        String[] letters = {"a","b","c","d","e","f"};
-        for (int i = 0;i < database.size();i++) {
-            if (reqState.equalsIgnoreCase(database.get(i).get(0))) {
-                for (int j = 0;j < letters.length;j++) {
-                    if (reqData.equalsIgnoreCase(letters[j])) {
-                        System.out.println("Here is your data.\n" + database.get(i).get(j+1));
-                    }
-                }
+        Menu menu = new Menu();
+        int i = 0;
+        while (!finishFlag) {
+            if (startFlag) {
+                createQuestionnaire();
+                menu.setStartFlag(false);
             }
+//            System.out.println(answers);
+            startFlag = menu.getStartFlag();
+            finishFlag = menu.getFinishFlag();
         }
+        System.out.println(answers);
+//        System.out.println("Answer amt: " + answers.size());
+//        testCase();
+        System.exit(0);
     }
     public void parseDatabase() {
         try {
@@ -59,7 +65,7 @@ public class Manager {
             BufferedReader br = new BufferedReader(fr);
             // System.out.println("Began parsing database.");
             String titleRow = br.readLine();
-            for (int i = 0;i < 50; i++) {
+            for (int i = 0;i < 100; i++) {
                 String row = br.readLine();
                 String[] cols = row.split(",");
                 database.add(new ArrayList<>());
@@ -74,7 +80,27 @@ public class Manager {
             e.printStackTrace();
         }
     }
-    public void tierListAdd() {
-
+    public void createQuestionnaire() {
+        questionnaire = new Questionnaire();
+        int i = 0;
+        qFlag = true;
+        while (qFlag) {
+            qFlag = questionnaire.getQStatus();
+            try {
+                Thread.sleep(30);
+            } catch (Exception e) {}
+        }
+        answers = questionnaire.getAnswers();
+        formatUserAnswers();
+    }
+    public void formatUserAnswers() {
+        for (int i = 0; i < 100; i++) {
+            ArrayList<Double> tempArray = new ArrayList<>();
+            tempArray.add(Math.abs((Double.parseDouble(answers.get(0)) - Double.parseDouble(database.get(i).get(2))))/Double.parseDouble(answers.get(0)));
+            tempArray.add(Math.abs((Double.parseDouble(answers.get(1)) - Double.parseDouble(database.get(i).get(3))))/Double.parseDouble(answers.get(1)));
+            tempArray.add(Math.abs((Double.parseDouble(answers.get(2)) - Double.parseDouble(database.get(i).get(4))))/Double.parseDouble(answers.get(2)));
+            tempArray.add(Math.abs((Double.parseDouble(answers.get(3)) - Double.parseDouble(database.get(i).get(5))))/Double.parseDouble(answers.get(3)));
+            System.out.println(database.get(i).get(0) + ", " + database.get(i).get(1) + " " + tempArray);
+        }
     }
 }

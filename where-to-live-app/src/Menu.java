@@ -2,20 +2,29 @@
 Class: Menu
 Author: Samdine Murray, Dylan Potter, Henry Sanders, Nole Liu
 Created: 10/6/2023
-Last Modified: 10/6/2023
+Last Modified: 11/2/2023
 
 Purpose:
 
-Attributes:
+Attributes: -finishflag: boolean
+            -startFlag: boolean
+            -menu: Frame
 
 Methods: +pressStart(): void
          +pressMap(): void
          +pressCredits(): void
+         +pressBack(): void
+         +pressExit(): void
  */
+
 import java.awt.event.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Menu {
+    private boolean finishFlag = false;
+    private boolean startFlag = false;
+    private Frame menu = new Frame();
     Menu() {
         Frame f = new Frame();
         f.setSize(1600,800);
@@ -42,24 +51,34 @@ public class Menu {
         b4.addActionListener(this::pressExit);
     }
     public void pressStart(ActionEvent e) {
-        new Questionnaire();
+        startFlag = true;
     }
     public void pressMap(ActionEvent e) {
         new Map();
     }
-    Frame c = new Frame();
     public void pressCredits(ActionEvent e) {
-        c.setSize(1600,800);
-        c.show();
+        menu.setSize(1600,800);
+        menu.show();
         Button b5 = new Button("BACK");
         b5.setBounds(100, 100, 400, 50);
-        c.add(b5);
+        menu.add(b5);
         b5.addActionListener(this::pressBack);
     }
     public void pressBack(ActionEvent e) {
-        c.hide();
+        menu.hide();
     }
     public void pressExit(ActionEvent e) {
-        System.exit(0);
+        finishFlag = true;
+    }
+
+    // SETTERS & GETTERS
+    public boolean getFinishFlag() {
+        return finishFlag;
+    }
+    public boolean getStartFlag() {
+        return startFlag;
+    }
+    public void setStartFlag(boolean startFlag) {
+        this.startFlag = startFlag;
     }
 }
