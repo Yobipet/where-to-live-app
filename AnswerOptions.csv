@@ -1,8 +1,7 @@
-Violent Crime Rate,115.2,867.1,null,null,null
-National Risk Index Score,5.36,100,null,null,null
+Violent Crime Rate,100,1000,null,null,null
+National Risk Index Score,16.6,100,null,null,null
 Avg High Temp (F),35.5,81.9,null,null,null
 Avg Low Temp (F),20.4,66.6,null,null,null
-Housing Vacancy (%),7.4 - 10.44,10.45 - 13.48,13.49 - 16.52,16.53 - 19.56,19.57 - 22.6
 Are Children in Grade School,Yes ,No,null,null,null
 Higher State Tax?,Yes,No,null,null,null
 How crowded?,Very Low,Low,Average,High,Very High

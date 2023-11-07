@@ -41,7 +41,7 @@ public class Questionnaire {
     Questionnaire() {
         readAnswerList();
         questionnaireProgress = true;
-        questionnaire.setSize(1600,1000);
+        questionnaire.setSize(1600,800);
         questionnaire.setLayout(null);
         Button b1 = new Button("BACK");
         b1.setBounds(1400, 700, 100, 50);
@@ -70,16 +70,16 @@ public class Questionnaire {
         int questionNumber = 1;
         int y = 50;
         ArrayList<JLabel> labels = new ArrayList<>();
-        while (questionNumber <= 15) {
+        while (questionNumber <= 14) {
             if (questionNumber < 5) {
                 questionArrayList.add(new Question(1, questionNumber,printQuestions(questionNumber -1),answerTemplate.get(questionNumber -1)));
                 questionnaire.add(questionArrayList.get(questionNumber -1).getQuestionElement());
             }
-            if (questionNumber >= 5 && questionNumber < 14) {
+            if (questionNumber >= 5 && questionNumber < 13) {
                 questionArrayList.add(new Question(2, questionNumber,printQuestions(questionNumber -1),answerTemplate.get(questionNumber -1)));
                 questionnaire.add(questionArrayList.get(questionNumber -1).getQuestionElement());
             }
-            if (questionNumber == 14 || questionNumber == 15){
+            if (questionNumber == 13 || questionNumber == 14){
                 questionArrayList.add(new Question(3, questionNumber,printQuestions(questionNumber -1),answerTemplate.get(questionNumber -1)));
                 questionnaire.add(questionArrayList.get(questionNumber -1).getQuestionElement());
             }
@@ -101,7 +101,7 @@ public class Questionnaire {
         try {
             FileReader fr = new FileReader(answerOptions);
             BufferedReader br = new BufferedReader(fr);
-            for (int i = 0;i < 15; i++) {
+            for (int i = 0;i < 14; i++) {
                 String row = br.readLine();
                 String[] cols = row.split(",");
                 answerTemplate.add(new ArrayList<>());
