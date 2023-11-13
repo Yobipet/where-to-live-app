@@ -73,6 +73,8 @@ public class MapComponent {
         coordinates[0] = finalX;
         coordinates[1] = finalY;
     }
+    //the method getStatePath should simply read a single cell from the excel file, which is then read and copied to a string
+    //at which point the string is split into a string list and returned
     public String[] getStatePath() {
         String row = "";
         String[] splitLine;
@@ -87,7 +89,8 @@ public class MapComponent {
         }
         return null;
     }
-    //the method islandCheck should check if there is additional coordinates for a new closed path in the next cell, and return number of closed paths
+    //the method getClosedPaths should check if there is additional coordinates for a new closed path in the next cell
+    //and return the number of closed paths, for instance, if there are 3 cells with data, it will return 3 closed paths
     public int getClosedPaths(){
         String row = "";
         int closedPaths = 0;
