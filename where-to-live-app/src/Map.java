@@ -46,8 +46,8 @@ Methods: +pressBack(): void
 public class Map extends JPanel {
     private JFrame mapFrame;
     private JLayeredPane layeredPane;
-    static JComboBox dropDown1;
-    static JComboBox dropDown2;
+    private static JComboBox dropDown1;
+    private static JComboBox dropDown2;
     //private BufferedImage image;
     private Color fillColor;
     private Path2D path;
