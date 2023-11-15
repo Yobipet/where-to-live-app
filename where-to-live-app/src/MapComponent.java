@@ -20,18 +20,45 @@ import java.util.ArrayList;
 public class MapComponent {
     private Path2D[] paths = new Path2D[150];
     private Color[] colors = new Color[150];
+    private Path2D[] pathsCounty = new Path2D[150];
+    private Color[] colorsCounty = new Color[150];
     private double[] coordinates = new double[2];
     private int listLength;
-    private double scaleFactorX;
-    private double scaleFactorY;
-    public MapComponent() {
-        createPathsAndColors();
+    public MapComponent(boolean all) {
+        if (all){
+            createPathsAndColors();
+        } else{
+            createCountyPathsAndColors();
+        }
     }
     public void createPathsAndColors(){
-        for (int i = 0; i < 250; i++){
+        for (int i = 0; i < 50; i++){
             paths[i] = new Path2D.Double();
             createPath(paths[i]);
             colors[i] = chooseColor();
+        }
+    }
+    public void createCountyPathsAndColors(){
+        for (int i = 0; i < 150; i++){
+            pathsCounty[i] = new Path2D.Double();
+            createCountyPath(pathsCounty[i]);
+            colorsCounty[i] = chooseColor();
+        }
+    }
+    public void createCountyPath(Path2D path){
+        int[] coordinates = new int[2];
+        int segmentNum = 0;
+        for (int i = 0; i < getClosedPaths(); i++){
+            segmentNum = 0;
+            setCountyPath(segmentNum);
+            path.moveTo(coordinates[0],coordinates[1]);
+            segmentNum++;
+            while (segmentNum < listLength) {
+                setCountyPath(segmentNum);
+                path.lineTo(coordinates[0], coordinates[1]);
+                segmentNum++;
+            }
+            path.closePath();
         }
     }
     public void createPath(Path2D path){
@@ -58,18 +85,19 @@ public class MapComponent {
         String[] tempList = listOne[segment].split(",");
         double tempX = Double.parseDouble(tempList[0]);
         double tempY = Double.parseDouble(tempList[1]);
-        double finalX;
-        double finalY;
-        if (tempX < 0){
-            finalX = (tempX % 800) * scaleFactorX;
-        }else{
-            finalX = tempY * scaleFactorX;
-        }
-        if (tempY < 0){
-            finalY = (tempY % 400) * scaleFactorY;
-        }else{
-            finalY = tempY * scaleFactorY;
-        }
+        double finalX = (250 - Math.abs(tempX)) * (800/250);
+        double finalY = (70 - tempY) * (400/70);
+        coordinates[0] = finalX;
+        coordinates[1] = finalY;
+    }
+    public void setCountyPath(int segment){
+        String[] listOne = getCountyPath();
+        listLength = listOne.length;
+        String[] tempList = listOne[segment].split(",");
+        double tempX = Double.parseDouble(tempList[0]);
+        double tempY = Double.parseDouble(tempList[1]);
+        double finalX = (xMax - Math.abs(tempX)) * (800/xMax);
+        double finalY = (yMax - tempY) * (400/yMax);
         coordinates[0] = finalX;
         coordinates[1] = finalY;
     }
@@ -83,6 +111,38 @@ public class MapComponent {
             BufferedReader br = new BufferedReader(fr);
             row = br.readLine();
             splitLine = row.split(" ");
+            return splitLine;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String[] getCountyPath() {
+        String row = "";
+        String[] splitLine;
+        try {
+            FileReader fr = new FileReader("C:/Users/henry/Desktop/CoordinateData.xlsx");
+            BufferedReader br = new BufferedReader(fr);
+            row = br.readLine();
+            splitLine = row.split(" ");
+            String[] completeLine = row.split(" ");
+            int pathLength = completeLine.length;
+            for (int i = 0; i < pathLength; i++){
+                String[] tempLine = completeLine[i].split(",");
+                double tempX = Double.parseDouble(tempLine[0]);
+                double tempY = Double.parseDouble(tempLine[1]);
+                if (tempX < minX){
+                    minX = tempX;
+                }
+                if (tempX > maxX){
+                    maxX = tempX;
+                }
+                if (tempY < minY){
+                    minY = tempY;
+                }
+                if (tempY > maxY){
+                    maxY = tempY;
+                }
             return splitLine;
         } catch (Exception e) {
             e.printStackTrace();
