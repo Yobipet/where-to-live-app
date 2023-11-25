@@ -107,7 +107,7 @@ public class MapComponent {
         String row = "";
         String[] splitLine;
         try {
-            FileReader fr = new FileReader("C:/Users/henry/Desktop/CoordinateData.xlsx");
+            FileReader fr = new FileReader("CoordinateData.xlsx");
             BufferedReader br = new BufferedReader(fr);
             row = br.readLine();
             splitLine = row.split(" ");
@@ -121,7 +121,7 @@ public class MapComponent {
         String row = "";
         String[] splitLine;
         try {
-            FileReader fr = new FileReader("C:/Users/henry/Desktop/CoordinateData.xlsx");
+            FileReader fr = new FileReader("CoordinateData.xlsx");
             BufferedReader br = new BufferedReader(fr);
             row = br.readLine();
             splitLine = row.split(" ");
