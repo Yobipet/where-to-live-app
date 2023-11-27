@@ -96,10 +96,12 @@ public class MapComponent {
         String[] tempList = listOne[segment].split(",");
         double tempX = Double.parseDouble(tempList[0]);
         double tempY = Double.parseDouble(tempList[1]);
+        /*
         double finalX = (xMax - Math.abs(tempX)) * (800/xMax);
         double finalY = (yMax - tempY) * (400/yMax);
         coordinates[0] = finalX;
         coordinates[1] = finalY;
+        */
     }
     //the method getStatePath should simply read a single cell from the excel file, which is then read and copied to a string
     //at which point the string is split into a string list and returned
@@ -131,6 +133,7 @@ public class MapComponent {
                 String[] tempLine = completeLine[i].split(",");
                 double tempX = Double.parseDouble(tempLine[0]);
                 double tempY = Double.parseDouble(tempLine[1]);
+                /*
                 if (tempX < minX){
                     minX = tempX;
                 }
@@ -143,8 +146,9 @@ public class MapComponent {
                 if (tempY > maxY){
                     maxY = tempY;
                 }
+                 */
             return splitLine;
-        } catch (Exception e) {
+        }} catch (Exception e) {
             e.printStackTrace();
         }
         return null;
