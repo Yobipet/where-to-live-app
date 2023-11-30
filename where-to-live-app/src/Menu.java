@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class Menu {
     private boolean finishFlag = false;
     private boolean startFlag = false;
+    private boolean mapFlag = false;
     private Frame menu = new Frame();
     Menu() {
         Frame f = new Frame();
@@ -54,7 +55,7 @@ public class Menu {
         startFlag = true;
     }
     public void pressMap(ActionEvent e) {
-        new Map();
+        mapFlag = true;
     }
     public void pressCredits(ActionEvent e) {
         menu.setSize(1600,800);
@@ -78,7 +79,11 @@ public class Menu {
     public boolean getStartFlag() {
         return startFlag;
     }
+    public boolean getMapFlag() {return mapFlag;}
     public void setStartFlag(boolean startFlag) {
         this.startFlag = startFlag;
+    }
+    public void setMapFlag(boolean mapFlag) {
+        this.mapFlag = mapFlag;
     }
 }

@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class Questionnaire {
     private Frame questionnaire = new Frame();
     private boolean questionnaireProgress;
+    private boolean mapFlag = false;
     private ArrayList<ArrayList<String>> answerTemplate = new ArrayList<>();
     private ArrayList<String> answers = new ArrayList<>();
     private ArrayList<Question> questionArrayList = new ArrayList<>();
@@ -63,8 +64,8 @@ public class Questionnaire {
     private void pressNext(ActionEvent event) {
         pullAnswers();
         questionnaireProgress = false;
+        mapFlag = true;
         questionnaire.hide();
-        new Map();
     }
     private void questionUI() {
         int questionNumber = 1;
@@ -140,4 +141,5 @@ public class Questionnaire {
     public boolean getQStatus() {
         return questionnaireProgress;
     }
+    public boolean getMapFlag() {return this.mapFlag;}
 }
