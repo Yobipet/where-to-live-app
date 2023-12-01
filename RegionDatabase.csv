@@ -1,8 +1,6 @@
 "County, State","Violent Crime Rate [per 100,000 people]",National Risk Index Score,Avg High Temp (F),Avg Low Temp (F),Avg Housing Price ($),Housing Vacancy (%),High School Diploma or Higher (%),Tax (%),Population Density (persons/mi^2),Cost of Living (% of national average),Avg Cost of Healthcare ($ per capita),Political Stance (ranking),Racial Minorities (%),Avg Age ,Quality of LGBT Healthcare (ranking),Weed Recreational,Weed Medicinal
 "Jefferson Co, AL",562.3,96.5,75,52.2,240000,9.02,91,6,607,87,9280,1,47.3,37.9,1,0,1
 "Baldwin Co, AL",441.0,97.71,75,52.2,375000,51.1,91,7,145.8,88.3,9280,5,12.6,43.4,1,0,1
-"Anchorage, AK",1212.3,94.8,35.5,20.4,350000,4.5,94.2,0,170.6,123.5,13642,5,39.7,39.7,2,1,1
-"Fairbanks North Star Boro, AK",841.8,47,35.5,20.4,310000,19,94.5,0,13,104,13642,5,25.1,31.9,2,1,1
 "Maricopa Co, AZ",527.7,97.33,75.3,46.8,460000,4.89,88.8,6.3,480.4,113,8756,4,18.3,36.9,2,1,1
 "Yavapai Co, AZ",310.4,88.8,75.3,46.8,525000,3.6,93.6,6.35,29.1,98,8756,5,7.2,54.2,2,1,1
 "Pulaski Co, AR",487.2,95.1,71.8,50.2,210000,4.3,91.5,9.25,526.3,80.7,9338,1,43.9,43.9,1,0,1
@@ -19,8 +17,6 @@
 "Volusia Co, FL",189.8,97.52,81.9,60.9,345000,7.4,91.1,6.5,502.6,94.1,9856,5,17.1,46.4,1,0,1
 "Fulton Co, GA",320.0,92.3,75.6,52.7,411000,8,93.2,7.75,2025.3,113.3,8758,1,55.8,35.7,1,0,1
 "Forsynth Co, GA",184.5,81.16,75.6,52.7,373000,6.46,93.6,7,1118.7,121.9,8758,5,27.4,38.8,1,0,1
-"Honolulu Co, HI",205.0,97.6,80.4,66.6,695000,9,92.7,4.5,1692.4,171.5,10291,1,78.8,39.7,5,0,1
-"Hawai'i Co, HI",263.5,97.58,80.4,66.6,565000,10.2,92.8,4.5,49.8,131.9,10291,1,65.6,42.2,5,0,1
 "Ada Co, ID",155.6,87.9,55.7,32.1,494500,4.5,95,6,470.5,119.6,8148,5,8.5,37.7,2,0,0
 "Bonneville Co, ID",247.4,71.36,55.7,32.1,425000,4.94,92.5,6,66.4,85.3,8148,5,5.9,33.6,2,0,0
 "Cook Co, IL",585.2,99.6,62.7,42.6,315000,8.4,88,9,5583,105.7,10190,1,34.9,37.3,5,1,1
@@ -99,13 +95,7 @@
 "Eau Claire Co, WI",276.5,65.32,54,33.7,300000,3,95.5,5.5,165.7,90.6,9982,1,8.6,32,3,0,1
 "Laramie Co, WY",192.0,80.59,55.2,29.3,362000,7,94,6,37.4,100.3,10989,5,8.6,37.6,2,0,1
 "Campbell Co, WY",248.5,54.85,55.2,29.3,312000,5.25,92.4,5,9.8,98.2,10989,5,5.6,35.2,2,0,1
-,,,,,,,,,,,,"1 = Democratic, 5 = Republican",,,,"0 = Illegal, 1 = Legal",
-Data Links:,FBI — Table 4,Data Resources | National Risk Index (fema.gov),,,,h121-22-01.pdf (census.gov),,,Historical Population Density Data (1910-2020) (census.gov),Cost of Living Index by State [Updated June 2023] (worldpopulationreview.com),Health Care Costs by State [Updated July 2023] (worldpopulationreview.com),,A State-by-State Look at Growing Minority Populations (governing.com),Median Age by State [Updated January 2023] (worldpopulationreview.com),https://www.lgbtmap.org/equality-maps,https://en.wikipedia.org/wiki/Legality_of_cannabis_by_U.S._jurisdiction,
-,,https://www.bankrate.com/real-estate/median-home-price/#how-much,,,,,,,,,,,,,,,
-,,https://www.extremeweatherwatch.com/us-state-averages,,,,,,,,,,,,,,,
-,,https://taxfoundation.org/data/all/state/2023-sales-tax-rates-midyear/,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,
-Minimum:,9.5,16.6,35.5,20.4,130000,1.3,76.3,0,9.8,75.1,7522,1,4.5,25.5,1,0,0
-Maxiumum:,3772.0,100,81.9,66.6,860000,51.1,96.3,12.95,39437.8,172.5,14007,5,78.8,54.2,5,1,1
-,,,,,,,,,,,,,,,,,
-,,,,,,,,,345.7,,,,,,,,
+"Anchorage, AK",1212.3,94.8,35.5,20.4,350000,4.5,94.2,0,170.6,123.5,13642,5,39.7,39.7,2,1,1
+"Fairbanks North Star Boro, AK",841.8,47,35.5,20.4,310000,19,94.5,0,13,104,13642,5,25.1,31.9,2,1,1
+"Honolulu Co, HI",205.0,97.6,80.4,66.6,695000,9,92.7,4.5,1692.4,171.5,10291,1,78.8,39.7,5,0,1
+"Hawai'i Co, HI",263.5,97.58,80.4,66.6,565000,10.2,92.8,4.5,49.8,131.9,10291,1,65.6,42.2,5,0,1

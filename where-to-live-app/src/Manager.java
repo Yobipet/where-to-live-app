@@ -36,7 +36,9 @@ public class Manager {
     private ArrayList<Integer> tierList = new ArrayList<>();
     private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
+    private File statesFile = new File("StateNames.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
+    private ArrayList<String> stateNames = new ArrayList<>();
     private ArrayList<String> answers;
     private Questionnaire questionnaire;
     private boolean finishFlag = false;
@@ -46,7 +48,7 @@ public class Manager {
 
     // Methods
     public void runProgram() {
-        parseDatabase();
+        parseDatabases();
         Menu menu = new Menu();
         int i = 0;
         while (!menu.getFinishFlag()) {
@@ -66,7 +68,7 @@ public class Manager {
 //        testCase();
         System.exit(0);
     }
-    public void parseDatabase() {
+    public void parseDatabases() {
         try {
             FileReader fr = new FileReader(regionFile);
             BufferedReader br = new BufferedReader(fr);
@@ -82,6 +84,11 @@ public class Manager {
                     stateData = String.format(stateData + " " + database.get(i).get(j));
                 }
                 // System.out.println(stateData);
+            }
+            fr = new FileReader(statesFile);
+            br = new BufferedReader(fr);
+            for (int i = 0; i < 50; i++) {
+                stateNames.add(br.readLine());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +116,7 @@ public class Manager {
             ex.printStackTrace();
         }
         JFrame mapFrame = new JFrame();
-        Map map = new Map(tierList);
+        Map map = new Map(tierList,stateNames);
         System.out.println("Created frame.");
         mapFrame.add(map);
         mapFrame.pack();

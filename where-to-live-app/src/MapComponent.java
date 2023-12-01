@@ -20,100 +20,139 @@ import java.util.ArrayList;
 //mostly incomplete, still working out how to read excel file that stores coordinates
 public class MapComponent {
     private Path2D path = new Path2D.Double();
+    private ArrayList<Path2D> countyPaths = new ArrayList<>();
     private Color color;
     private Path2D[] pathsCounty = new Path2D[150];
     private Color[] colorsCounty = new Color[150];
     private ArrayList<ArrayList<ArrayList<Double>>> stateCoords = new ArrayList<>();
-    private ArrayList<ArrayList<ArrayList<Double>>> countyCoords = new ArrayList<>();
-    private boolean hasIslands = false;
+    private ArrayList<ArrayList<ArrayList<ArrayList<Double>>>> countyCoords = new ArrayList<>();
+    private boolean stateView;
     private int stateNum;
     private double xMax;
     private double xMin;
     private double yMax;
     private double yMin;
-    public MapComponent(boolean stateView, int stateNum) {
+    public MapComponent(boolean sV, int stateNum) {
         xMax = 0.0;
         xMin = 0.0;
         yMax = 0.0;
         yMin = 0.0;
+        this.stateView = sV;
         this.stateNum = stateNum;
         getStatePath(stateNum);
-//        getCountyPath(stateNum);
-//        if (!stateView){
+        getCountyPath(stateNum);
+        if (!stateView){
             createPathsAndColors();
-//        } else {
-//            createCountyPathsAndColors();
-//        }
+        } else {
+            createPathsAndColors();
+            createCountyPathsAndColors();
+        }
     }
     public void createPathsAndColors(){
-            createPath(path);
-//            color = chooseColor();
+        createPath(path);
     }
-//    public void createCountyPathsAndColors(){
-//        for (int i = 0; i < 150; i++){
-//            pathsCounty[i] = new Path2D.Double();
-//            createCountyPath(pathsCounty[i],0);
-//            createCountyPath(pathsCounty[i],1);
-//            colorsCounty[i] = chooseColor();
-//        }
-//    }
-//    public void createCountyPath(Path2D path, int countyNum){
-//        for (int i = 0; i < getClosedPaths(); i++){
-//            double finalX = (xMax - Math.abs(countyCoords.get(countyNum).get(0).get(0)) * (800/xMax));
-//            double finalY = (yMax - countyCoords.get(countyNum).get(0).get(1)) * (400/yMax);
-//            path.moveTo(finalX,finalY);
-//            for (int j = 1; j < countyCoords.get(countyNum).size(); j++) {
-//                finalX = (xMax - Math.abs(countyCoords.get(countyNum).get(j).get(0)) * (800/xMax));
-//                finalY = (yMax - countyCoords.get(countyNum).get(0).get(1)) * (400/yMax);
-//                path.lineTo(finalX,finalY);
-//            }
-//            path.closePath();
-//        }
-//    }
     public void createPath(Path2D path){
 //        for (int i = 0; i < getClosedPaths(); i++){
-            System.out.println("Began drawing state path.");
-            if (stateNum != 49 && stateNum != 50) {
-                for (int i = 0; i < stateCoords.size(); i++) {
-                    double finalX = (128 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 60);
-                    double finalY = (50 - stateCoords.get(i).get(0).get(1)) * (400 / 25);
-                    path.moveTo(finalX, finalY);
-                    for (int j = 1; j < stateCoords.get(i).size(); j++) {
-                        finalX = (128 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 60);
-                        finalY = (50 - stateCoords.get(i).get(j).get(1)) * (400 / 25);
-                        path.lineTo(finalX, finalY);
-                    }
+        // Mainland US
+        if (stateNum != 49 && stateNum != 50) {
+            for (int i = 0; i < stateCoords.size(); i++) {
+                double finalX = (128 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 60);
+                double finalY = (50 - stateCoords.get(i).get(0).get(1)) * (400 / 25);
+                path.moveTo(finalX, finalY);
+                for (int j = 1; j < stateCoords.get(i).size(); j++) {
+                    finalX = (128 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 60);
+                    finalY = (50 - stateCoords.get(i).get(j).get(1)) * (400 / 25);
+                    path.lineTo(finalX, finalY);
                 }
             }
-            else if (stateNum == 49){
-                for (int i = 0; i < stateCoords.size(); i++) {
-                    System.out.println(stateNum + ": " + stateCoords);
-                    double finalX = (250 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 200);
-                    double finalY = (80 -stateCoords.get(i).get(0).get(1)) * (400 / 60);
-                    path.moveTo(finalX, finalY);
-                    for (int j = 1; j < stateCoords.get(i).size(); j++) {
-                        finalX = (250 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 200);
-                        finalY = (80 - stateCoords.get(i).get(j).get(1)) * (400 / 60);
-                        path.lineTo(finalX, finalY);
-                    }
+        }
+        // Alaska
+        else if (stateNum == 49){
+            for (int i = 0; i < stateCoords.size(); i++) {
+                float finalX = (float)(238 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 200);
+                float finalY = (float)(80 - stateCoords.get(i).get(0).get(1)) * (400 / 60);
+                path.moveTo(finalX, finalY);
+                for (int j = 1; j < stateCoords.get(i).size(); j++) {
+                    finalX = (float)(238 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 200);
+                    finalY = (float)(80 - stateCoords.get(i).get(j).get(1)) * (400 / 60);
+                    path.lineTo(finalX, finalY);
                 }
             }
-            else {
-                for (int i = 0; i < stateCoords.size(); i++) {
-                    System.out.println(stateNum + ": " + stateCoords);
-                    double finalX = (160 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 25);
-                    double finalY = (24 -stateCoords.get(i).get(0).get(1)) * (400 / 12);
-                    path.moveTo(finalX, finalY);
-                    for (int j = 1; j < stateCoords.get(i).size(); j++) {
-                        finalX = (160 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 25);
-                        finalY = (24 - stateCoords.get(i).get(j).get(1)) * (400 / 12);
-                        path.lineTo(finalX, finalY);
-                    }
+        }
+        // Hawaii
+        else {
+            for (int i = 0; i < stateCoords.size(); i++) {
+                double finalX = (160 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 25);
+                double finalY = (24 -stateCoords.get(i).get(0).get(1)) * (400 / 12);
+                path.moveTo(finalX, finalY);
+                for (int j = 1; j < stateCoords.get(i).size(); j++) {
+                    finalX = (160 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 25);
+                    finalY = (24 - stateCoords.get(i).get(j).get(1)) * (400 / 12);
+                    path.lineTo(finalX, finalY);
                 }
             }
-            System.out.println("Finished drawing state path.");
-            path.closePath();
+        }
+        path.closePath();
 //        }
+    }
+    public void createCountyPathsAndColors(){
+        createCountyPaths(countyPaths);
+    }
+    public void createCountyPaths(ArrayList<Path2D> countyPaths){
+        // Mainland U.S.
+        if (stateNum != 49 && stateNum != 50) {
+            for (int k = 0; k < 2; k++) {
+                Path2D tempPath = new Path2D.Double();
+                for (int i = 0; i < countyCoords.get(k).size(); i++) {
+                    double finalX = (128 - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * (800 / 60);
+                    double finalY = (50 - countyCoords.get(k).get(i).get(0).get(1)) * (400 / 25);
+                    tempPath.moveTo(finalX, finalY);
+                    for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
+                        finalX = (128 - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * (800 / 60);
+                        finalY = (50 - countyCoords.get(k).get(i).get(j).get(1)) * (400 / 25);
+                        tempPath.lineTo(finalX, finalY);
+                    }
+                }
+                tempPath.closePath();
+                countyPaths.add(tempPath);
+            }
+        }
+        // Alaska
+        else if (stateNum == 49){
+            for (int k = 0; k < 2; k++) {
+                Path2D tempPath = new Path2D.Double();
+                for (int i = 0; i < countyCoords.get(k).size(); i++) {
+                    double finalX = (238 - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * (800 / 200);
+                    double finalY = (80 - countyCoords.get(k).get(i).get(0).get(1)) * (400 / 60);
+                    tempPath.moveTo(finalX, finalY);
+                    for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
+                        finalX = (238 - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * (800 / 200);
+                        finalY = (80 - countyCoords.get(k).get(i).get(j).get(1)) * (400 / 60);
+                        tempPath.lineTo(finalX, finalY);
+                    }
+                }
+                tempPath.closePath();
+                countyPaths.add(tempPath);
+            }
+        }
+        // Hawaii
+        else {
+            for (int k = 0; k < 2; k++) {
+                Path2D tempPath = new Path2D.Double();
+                for (int i = 0; i < countyCoords.get(k).size(); i++) {
+                    double finalX = (160 - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * (800 / 25);
+                    double finalY = (24 - countyCoords.get(k).get(i).get(0).get(1)) * (400 / 12);
+                    tempPath.moveTo(finalX, finalY);
+                    for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
+                        finalX = (160 - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * (800 / 25);
+                        finalY = (24 - countyCoords.get(k).get(i).get(j).get(1)) * (400 / 12);
+                        tempPath.lineTo(finalX, finalY);
+                    }
+                }
+                tempPath.closePath();
+                countyPaths.add(tempPath);
+            }
+        }
     }
     //the method setPath should create a coordinates list for the createPath method to read from
     //make it automatically convert to positive values in correct orientation/order for createPath()
@@ -149,9 +188,6 @@ public class MapComponent {
                 row = br.readLine();
             }
             String[] landMasses = row.split(",");
-            if (landMasses.length > 1) {
-                hasIslands = true;
-            }
             for (int k = 0; k < landMasses.length; k++) {
                 stateCoords.add(new ArrayList<>());
                 String[] cols = landMasses[k].split(" ");
@@ -174,42 +210,48 @@ public class MapComponent {
                     }
                 }
             }
-            System.out.println(stateCoords);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-//    public void getCountyPath(int stateNum) {
-//        String row1 = "";
-//        String row2 = "";
-//        try {
-//            FileReader fr = new FileReader("CountyCoordinates.csv");
-//            BufferedReader br = new BufferedReader(fr);
-//            br.readLine();
-//            for (int i = 0; i < stateNum; i++) {
-//                row1 = br.readLine();
-//                row2 = br.readLine();
-//            }
-//            String[] cols1 = row1.split(" ");
-//            String[] cols2 = row2.split(" ");
-//            countyCoords.add(new ArrayList<>());
-//            for (int j = 0; j < cols1.length; j++) {
-//                countyCoords.get(0).add(new ArrayList<>());
-//                String[] pair = cols1[j].split(",");
-//                countyCoords.get(0).get(j).add(Double.parseDouble(pair[0]));
-//                countyCoords.get(0).get(j).add(Double.parseDouble(pair[1]));
-//            }
-//            countyCoords.add(new ArrayList<>());
-//            for (int k = 0; k < cols1.length; k++) {
-//                countyCoords.get(1).add(new ArrayList<>());
-//                String[] pair = cols2[k].split(",");
-//                countyCoords.get(1).get(k).add(Double.parseDouble(pair[0]));
-//                countyCoords.get(1).get(k).add(Double.parseDouble(pair[1]));
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public void getCountyPath(int stateNum) {
+        String row1 = "";
+        String row2 = "";
+        try {
+            FileReader fr = new FileReader("CountyCoordinates.csv");
+            BufferedReader br = new BufferedReader(fr);
+            for (int i = 0; i < stateNum; i++) {
+                row1 = br.readLine();
+                row2 = br.readLine();
+            }
+            String[] landMasses1 = row1.split(",");
+            String[] landMasses2 = row2.split(",");
+            countyCoords.add(new ArrayList<>());
+            for (int k = 0; k < landMasses1.length; k++) {
+                String[] cols = landMasses1[k].split(" ");
+                countyCoords.get(0).add(new ArrayList<>());
+                for (int j = 0; j < cols.length; j++) {
+                    countyCoords.get(0).get(k).add(new ArrayList<>());
+                    String[] pair = cols[j].split(":");
+                    countyCoords.get(0).get(k).get(j).add(Double.parseDouble(pair[0]));
+                    countyCoords.get(0).get(k).get(j).add(Double.parseDouble(pair[1]));
+                }
+            }
+            countyCoords.add(new ArrayList<>());
+            for (int m = 0; m < landMasses2.length; m++) {
+                String[] cols = landMasses2[m].split(" ");
+                countyCoords.get(1).add(new ArrayList<>());
+                for (int l = 0; l < cols.length; l++) {
+                    countyCoords.get(1).get(m).add(new ArrayList<>());
+                    String[] pair = cols[l].split(":");
+                    countyCoords.get(1).get(m).get(l).add(Double.parseDouble(pair[0]));
+                    countyCoords.get(1).get(m).get(l).add(Double.parseDouble(pair[1]));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //the method getClosedPaths should check if there is additional coordinates for a new closed path in the next cell
     //and return the number of closed paths, for instance, if there are 3 cells with data, it will return 3 closed paths
 //    public int getClosedPaths(){
@@ -237,6 +279,9 @@ public class MapComponent {
     // SETTERS AND GETTERS
     public Path2D getPaths() {
         return this.path;
+    }
+    public ArrayList<Path2D> getCountyPaths() {
+        return this.countyPaths;
     }
     public int getStateNum() {
         return this.stateNum;
