@@ -204,4 +204,10 @@ public class MapComponent {
     public int getStateNum() {
         return this.stateNum;
     }
+    public double getxMax() {
+        return Math.abs(xMax);
+    }
+    public double getyMax() {
+        return Math.abs(yMax);
+    }
 }

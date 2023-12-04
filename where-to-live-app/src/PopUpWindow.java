@@ -16,22 +16,36 @@ Methods:    +populateWindow(): void
             +changeReadability(int i, String[] cols): String[]
  */
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 
 public class PopUpWindow {
-    private JFrame popup = new JFrame();
+    private JPanel popup = new JPanel();
     private File regionFile = new File("RegionDatabase.csv"); // Information for each state
 //    private File coordinates = new File("StateCoordinates.csv"); // This goes with the createButtons method
     private int rowOfLocation;
     public PopUpWindow(int rowOfLocation) {     // Initialize the correct row of the information
         this.rowOfLocation = rowOfLocation;
+        JFrame popUpWindow = new JFrame();
+        popUpWindow.setSize(400, 900);
+        popup.setLayout(new BorderLayout());
+        popup.setSize(400,900);
         populateWindow();
-        popup.setSize(400,800);
-        popup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        popup.setLayout(null);
-        popup.setVisible(true);
+        JButton backButton = new JButton("BACK");
+        backButton.setBounds(1400, 700, 100, 50);
+        popup.add(backButton, BorderLayout.SOUTH);
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                popUpWindow.hide();
+            }
+        });
+        popUpWindow.add(popup);
+        popUpWindow.setVisible(true);
     }
     public void populateWindow() {  // takes the rows that the state/county is in the spreadsheet as the input
         String row = "";
@@ -49,7 +63,7 @@ public class PopUpWindow {
                 cols = changeReadability(i, cols);
                 JLabel information = new JLabel(headerComponents[i] + ": " + cols[i]);
                 information.setBounds(20, i * (800 / 20), 1600, 50);
-                popup.add(information);
+                popup.add(information, BorderLayout.SOUTH);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,28 +107,7 @@ public class PopUpWindow {
         }
         return cols;
     }
-    // This is to put into the map component class, it's just here for now cause im dumb and realized that this doesn't pertain to my class.
-//    public void createButtons() {
-//        int numOfRows = 100;    // able to change for the number of rows in a spreadsheet, idk really know how to get the number of rows with a command
-//        int buttonHeight = 1;
-//        int buttonWidth = 1;
-//        int buttonX;    // Excel sheet can from the first column name -> java x coordinate -> java y coordinate
-//        int buttonY;
-//        try {
-//            FileReader fr = new FileReader(coordinates);
-//            BufferedReader br = new BufferedReader(fr);
-//            for(int i = 0; i < numOfRows; i++) {
-//                String row = br.readLine();
-//                String[] cols = row.split(",");
-//                buttonX = Integer.parseInt(cols[1]);
-//                buttonY = Integer.parseInt(cols[2]);
-//                JButton locationName = new JButton(cols[0]);
-//                locationName.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
     // Getters and Setters
     public void setRowOfLocation(int rowOfLocation) {
         this.rowOfLocation = rowOfLocation;

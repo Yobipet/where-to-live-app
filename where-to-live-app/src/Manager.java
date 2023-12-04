@@ -116,7 +116,7 @@ public class Manager {
             ex.printStackTrace();
         }
         JFrame mapFrame = new JFrame();
-        Map map = new Map(tierList,stateNames);
+        Map map = new Map(tierList,stateNames,database);
         System.out.println("Created frame.");
         mapFrame.add(map);
         mapFrame.pack();
