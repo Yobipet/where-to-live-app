@@ -163,7 +163,7 @@ public class Map extends JPanel {
                     }
                     @Override
                     public Dimension getPreferredSize() {
-                        return new Dimension(400, 400);
+                        return new Dimension(700, 700);
                     }
                 };
                 tempStateWindow.add(stateViewPanel);
@@ -242,7 +242,7 @@ public class Map extends JPanel {
                     }
                     @Override
                     public Dimension getPreferredSize() {
-                        return new Dimension(400, 400);
+                        return new Dimension(700, 700);
                     }
                 };
                 tempStateWindow.add(stateViewPanel);
@@ -318,7 +318,7 @@ public class Map extends JPanel {
 //                    JLabel stateNum = new JLabel(Integer.toString(finalK+1));
 //                    tempStateWindow.add(stateNum);
                     MapComponent mc = new MapComponent(true,finalK+1);
-                    JPanel stateViewPanel = new JPanel(new FlowLayout()) {
+                    JPanel stateViewPanel = new JPanel(new BorderLayout()) {
                         @Override
                         protected void paintComponent(Graphics g) {
                             super.paintComponent(g);
@@ -338,9 +338,86 @@ public class Map extends JPanel {
                         }
                         @Override
                         public Dimension getPreferredSize() {
-                            return new Dimension(400, 400);
+                            return new Dimension(700, 700);
                         }
                     };
+                    JButton countyButton1 = new JButton() {
+                        protected void paintComponent(Graphics g) {
+                            super.paintComponent(g);
+                            Graphics2D county = (Graphics2D) g;
+                            county.setColor(Color.CYAN);
+                            county.fill(mc.getCountyPaths().get(0));
+                        }
+                        Shape polygon;
+                        @Override
+                        public boolean contains(int x, int y) {
+                            if (polygon == null || !polygon.getBounds().equals(getBounds())) {
+                                polygon = new Area(mc.getCountyPaths().get(0));
+                            }
+                            return polygon.contains(x, y);
+                        }
+                        @Override
+                        public Dimension getPreferredSize() {
+                            return new Dimension(700, 700);
+                        }
+                    };
+                    countyButton1.setOpaque(false);
+                    countyButton1.setContentAreaFilled(false);
+                    countyButton1.setBorderPainted(false);
+                    stateViewPanel.add(countyButton1, BorderLayout.CENTER);
+                    countyButton1.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+//                            Frame tempContextWindow = new Frame();
+//                            JPanel contextPanel = new JPanel(new FlowLayout()) {
+//                                @Override
+//                                public Dimension getPreferredSize() {
+//                                    return new Dimension(400,400);
+//                                }
+//                            };
+//                            contextPanel.add(new JLabel("blah"));
+//                            tempContextWindow.add(contextPanel);
+//                            tempContextWindow.pack();
+//                            tempContextWindow.setVisible(true);
+                            new PopUpWindow(((finalK + 1) * 2 - 1));
+                        }
+                    });
+                    JButton countyButton2 = new JButton() {
+                        Shape polygon;
+                        @Override
+                        public boolean contains(int x, int y) {
+                            if (polygon == null || !polygon.getBounds().equals(getBounds())) {
+                                polygon = new Area(mc.getCountyPaths().get(1));
+                            }
+                            return polygon.contains(x, y);
+                        }
+                        @Override
+                        public Dimension getPreferredSize() {
+                            return new Dimension(200, 200);
+                        }
+                    };
+                    countyButton2.setOpaque(false);
+                    countyButton2.setContentAreaFilled(false);
+                    countyButton2.setBorderPainted(false);
+                    stateViewPanel.add(countyButton2, BorderLayout.CENTER);
+                    countyButton2.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+//                            Frame tempContextWindow = new Frame();
+//                            JPanel contextPanel = new JPanel(new FlowLayout()) {
+//                                @Override
+//                                public Dimension getPreferredSize() {
+//                                    return new Dimension(400,400);
+//                                }
+//                            };
+//                            contextPanel.add(new JLabel("blah"));
+//                            tempContextWindow.add(contextPanel);
+//                            tempContextWindow.pack();
+//                            tempContextWindow.setVisible(true);
+                            new PopUpWindow(((finalK + 1) * 2 - 1) + 1);
+                        }
+                    });
+
                     tempStateWindow.add(stateViewPanel);
                     tempStateWindow.pack();
                     tempStateWindow.setVisible(true);
