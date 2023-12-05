@@ -17,17 +17,19 @@ Methods: +pressStart(): void
          +pressExit(): void
  */
 
+import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
-import java.io.*;
 
 public class Menu {
     private boolean finishFlag = false;
     private boolean startFlag = false;
+    private boolean mapFlag = false;
     private JFrame credits;
-    private JLayeredPane creditsPane;
     private File sources = new File("RegionDatabase.csv");
     Menu() {
         Frame f = new Frame();
@@ -58,7 +60,7 @@ public class Menu {
         startFlag = true;
     }
     public void pressMap(ActionEvent e) {
-        new Map();
+        mapFlag = true;
     }
     public void pressCredits(ActionEvent e) {
         credits = new JFrame("Credits");
@@ -102,11 +104,11 @@ public class Menu {
         JButton cB1 = new JButton("BACK");
         cB1.setBounds(600, 700, 400, 50);
         credits.add(cB1);
-        cB1.addActionListener(this::pressBack);
+        cB1.addActionListener(this::pressCreditsBack);
         credits.setLayout(null);
         credits.setVisible(true);
     }
-    public void pressBack(ActionEvent e) {
+    public void pressCreditsBack(ActionEvent e) {
         credits.hide();
     }
     public void pressExit(ActionEvent e) {
@@ -139,5 +141,9 @@ public class Menu {
             e.printStackTrace();
         }
         return line;
+    }
+    public boolean getMapFlag() {return mapFlag;}
+    public void setMapFlag(boolean mapFlag) {
+        this.mapFlag = mapFlag;
     }
 }
