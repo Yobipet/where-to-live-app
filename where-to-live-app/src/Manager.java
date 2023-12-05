@@ -40,9 +40,6 @@ public class Manager {
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
     private ArrayList<String> stateNames = new ArrayList<>();
     private ArrayList<String> answers;
-    private Questionnaire questionnaire;
-    private boolean finishFlag = false;
-    private boolean startFlag = false;
     private boolean qFlag = false;
     private boolean mapFlag = false;
 
@@ -60,12 +57,9 @@ public class Manager {
                 createMap();
                 menu.setMapFlag(false);
             }
-//            System.out.println(answers);
             mapFlag = menu.getMapFlag();
         }
         System.out.println(answers);
-//        System.out.println("Answer amt: " + answers.size());
-//        testCase();
         System.exit(0);
     }
     public void parseDatabases() {
@@ -95,9 +89,11 @@ public class Manager {
         }
     }
     public void createQuestionnaire() {
-        questionnaire = new Questionnaire();
+        Questionnaire questionnaire = new Questionnaire();
         int i = 0;
         qFlag = true;
+        mapFlag = false;
+        answers = null;
         while (qFlag) {
             qFlag = questionnaire.getQStatus();
             try {

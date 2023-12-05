@@ -20,32 +20,34 @@ Methods: +pressStart(): void
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class Menu {
     private boolean finishFlag = false;
     private boolean startFlag = false;
     private boolean mapFlag = false;
-    private Frame menu = new Frame();
+    private JFrame credits;
+    private File sources = new File("RegionDatabase.csv");
     Menu() {
-        JFrame f = new JFrame();
+        Frame f = new Frame();
         f.setSize(1600,800);
-        JLabel l1 = new JLabel("Where To Live App");
-        l1.setBounds(0, 100, 1600, 50);
-        l1.setFont(new Font("Serif",Font.PLAIN,20));
-        l1.setHorizontalAlignment(l1.CENTER);
+        Label l1 = new Label("Where To Live App");
+        l1.setBounds(700, 100, 100, 50);
         f.add(l1);
-        JButton b1 = new JButton("START");
-        b1.setBounds(750, 200, 100, 50);
+        Button b1 = new Button("START");
+        b1.setBounds(700, 200, 100, 50);
         f.add(b1);
-        JButton b2 = new JButton("MAP");
-        b2.setBounds(750, 300, 100, 50);
+        Button b2 = new Button("MAP");
+        b2.setBounds(700, 300, 100, 50);
         f.add(b2);
-        JButton b3 = new JButton("CREDITS");
-        b3.setBounds(750, 400, 100, 50);
+        Button b3 = new Button("CREDITS");
+        b3.setBounds(700, 400, 100, 50);
         f.add(b3);
-        JButton b4 = new JButton("EXIT");
-        b4.setBounds(750, 500, 100, 50);
+        Button b4 = new Button("EXIT");
+        b4.setBounds(700, 500, 100, 50);
         f.add(b4);
         f.setLayout(null);
         f.setVisible(true);
@@ -61,15 +63,53 @@ public class Menu {
         mapFlag = true;
     }
     public void pressCredits(ActionEvent e) {
-        menu.setSize(1600,800);
-        menu.show();
-        Button b5 = new Button("BACK");
-        b5.setBounds(100, 100, 400, 50);
-        menu.add(b5);
-        b5.addActionListener(this::pressBack);
+        credits = new JFrame("Credits");
+        credits.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        credits.setSize(1600,800);
+        JLabel cL1 = new JLabel("<html><b>Credits</b></html>");
+        cL1.setBounds(700, 50, 200, 50);
+        cL1.setHorizontalAlignment(JLabel.CENTER);
+        credits.add(cL1);
+        JLabel cL2 = new JLabel("<html><u>Development Team</u></html>");
+        cL2.setBounds(700, 100, 200, 50);
+        cL2.setHorizontalAlignment(JLabel.CENTER);
+        credits.add(cL2);
+        JLabel cL3 = new JLabel("Henry Sanders          Nole Liu          Samdine Murray          Dylan Potter");
+        cL3.setBounds(500, 150, 600, 50);
+        cL3.setHorizontalAlignment(JLabel.CENTER);
+        credits.add(cL3);
+        JLabel cL4 = new JLabel("<html><u>Database Sources</u></html>");
+        cL4.setBounds(700, 200, 200, 50);
+        cL4.setHorizontalAlignment(JLabel.CENTER);
+        credits.add(cL4);
+        int tempY = 250;
+        int tempX = 200;
+        for (int i = 103; i <= 105; i++) {
+            String[] tempStr = getSource(i);
+            for (int j = 1; j < tempStr.length; j++) {
+                if (tempStr[j] != null && tempStr[j] != ""){
+                    JLabel tempL = new JLabel(tempStr[j]);
+                    tempL.setBounds(tempX, tempY, 400, 50);
+                    tempL.setHorizontalAlignment(JLabel.CENTER);
+                    credits.add(tempL);
+                    tempY += 50;
+                    if (tempY >= 700){
+                        tempY = 250;
+                        tempX += 800;
+                    }
+                }else{
+                }
+            }
+        }
+        JButton cB1 = new JButton("BACK");
+        cB1.setBounds(600, 700, 400, 50);
+        credits.add(cB1);
+        cB1.addActionListener(this::pressCreditsBack);
+        credits.setLayout(null);
+        credits.setVisible(true);
     }
-    public void pressBack(ActionEvent e) {
-        menu.hide();
+    public void pressCreditsBack(ActionEvent e) {
+        credits.hide();
     }
     public void pressExit(ActionEvent e) {
         finishFlag = true;
@@ -82,10 +122,27 @@ public class Menu {
     public boolean getStartFlag() {
         return startFlag;
     }
-    public boolean getMapFlag() {return mapFlag;}
     public void setStartFlag(boolean startFlag) {
         this.startFlag = startFlag;
     }
+    public String[] getSource(int lineNum) {
+        String row = "";
+        String[] line = new String[20];
+        try {
+            FileReader fr = new FileReader(sources);
+            BufferedReader br = new BufferedReader(fr);
+            for(int i = 0; i < lineNum; i++) {
+                row = br.readLine();
+                for (int j = 0; j < row.length(); j++){
+                    line = row.split(",");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return line;
+    }
+    public boolean getMapFlag() {return mapFlag;}
     public void setMapFlag(boolean mapFlag) {
         this.mapFlag = mapFlag;
     }
