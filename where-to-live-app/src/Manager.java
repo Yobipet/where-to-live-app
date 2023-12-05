@@ -23,6 +23,7 @@ Methods: +formatUserAnswers(): void
          +createQuestionnaire: void
  */
 
+import javax.swing.*;
 import java.io.*;
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -35,33 +36,39 @@ public class Manager {
     private ArrayList<Integer> tierList = new ArrayList<>();
     private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
+    private File statesFile = new File("StateNames.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
+    private ArrayList<String> stateNames = new ArrayList<>();
     private ArrayList<String> answers;
     private Questionnaire questionnaire;
     private boolean finishFlag = false;
     private boolean startFlag = false;
     private boolean qFlag = false;
+    private boolean mapFlag = false;
 
     // Methods
     public void runProgram() {
-        parseDatabase();
+        parseDatabases();
         Menu menu = new Menu();
         int i = 0;
-        while (!finishFlag) {
-            if (startFlag) {
+        while (!menu.getFinishFlag()) {
+            if (menu.getStartFlag()) {
                 createQuestionnaire();
                 menu.setStartFlag(false);
             }
+            if (mapFlag) {
+                createMap();
+                menu.setMapFlag(false);
+            }
 //            System.out.println(answers);
-            startFlag = menu.getStartFlag();
-            finishFlag = menu.getFinishFlag();
+            mapFlag = menu.getMapFlag();
         }
         System.out.println(answers);
 //        System.out.println("Answer amt: " + answers.size());
 //        testCase();
         System.exit(0);
     }
-    public void parseDatabase() {
+    public void parseDatabases() {
         try {
             FileReader fr = new FileReader(regionFile);
             BufferedReader br = new BufferedReader(fr);
@@ -78,6 +85,11 @@ public class Manager {
                 }
                 // System.out.println(stateData);
             }
+            fr = new FileReader(statesFile);
+            br = new BufferedReader(fr);
+            for (int i = 0; i < 50; i++) {
+                stateNames.add(br.readLine());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,9 +104,33 @@ public class Manager {
                 Thread.sleep(30);
             } catch (Exception e) {}
         }
+        mapFlag = questionnaire.getMapFlag();
         answers = questionnaire.getAnswers();
         formatUserAnswers();
         createTierLevels();
+    }
+    public void createMap() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+            ex.printStackTrace();
+        }
+        JFrame mapFrame = new JFrame();
+        Map map = new Map(tierList,stateNames,database);
+        System.out.println("Created frame.");
+        mapFrame.add(map);
+        mapFrame.pack();
+        mapFrame.setLocationRelativeTo(null);
+        mapFrame.setVisible(true);
+        System.out.println("Set to visible.");
+        boolean backFlag = false;
+        while (!backFlag) {
+            backFlag = map.getBackFlag();
+            try {
+                Thread.sleep(30);
+            } catch (Exception e) {}
+        }
+        mapFrame.hide();
     }
     public void formatUserAnswers() {
         for (int i = 0; i < 100; i++) {
@@ -233,13 +269,13 @@ public class Manager {
             else {
                 tempArray.add(0.0);
             }
-            if (answers.get(12).contains("null")) {
+            if (answers.get(12).contains("null") || answers.get(13).isEmpty()) {
                 tempArray.add(0.0);
             }
             else {
                 tempArray.add(Math.abs(Double.parseDouble(answers.get(12))-Double.parseDouble(database.get(i).get(15)))/100);
             }
-            if (answers.get(13).contains("null")) {
+            if (answers.get(13).contains("null") || answers.get(13).isEmpty()) {
                 tempArray.add(0.0);
             }
             else if (Double.parseDouble(answers.get(13)) < Double.parseDouble(database.get(i).get(6))) {
