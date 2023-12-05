@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import javax.imageio.ImageIO;
@@ -65,12 +66,12 @@ public class MapComponent {
         // Alaska
         else if (stateNum == 49){
             for (int i = 0; i < stateCoords.size(); i++) {
-                float finalX = (float)(238 - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 200);
-                float finalY = (float)(80 - stateCoords.get(i).get(0).get(1)) * (400 / 60);
+                double finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(0).get(0))) * (800 / 200);
+                double finalY = ((yMax + 3) - stateCoords.get(i).get(0).get(1)) * (400 / 50);
                 path.moveTo(finalX, finalY);
                 for (int j = 1; j < stateCoords.get(i).size(); j++) {
-                    finalX = (float)(238 - Math.abs(stateCoords.get(i).get(j).get(0))) * (800 / 200);
-                    finalY = (float)(80 - stateCoords.get(i).get(j).get(1)) * (400 / 60);
+                    finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(j).get(0))) * (800/200);
+                    finalY = ((yMax + 3) - stateCoords.get(i).get(j).get(1)) * (400 / 50);
                     path.lineTo(finalX, finalY);
                 }
             }
@@ -94,30 +95,101 @@ public class MapComponent {
     public void createCountyPaths(ArrayList<Path2D> countyPaths){
         System.out.println("xMax: " + xMax);
         System.out.println("yMax: " + yMax);
-        for (int k = 0; k < 2; k++) {
-            Path2D tempPath = new Path2D.Double();
-            for (int i = 0; i < countyCoords.get(k).size(); i++) {
-                double finalX = ((Math.abs(xMax) + 1) - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * (400 / Math.abs(xMax)) * 10;
-                double finalY = ((yMax + 1) - countyCoords.get(k).get(i).get(0).get(1)) * (400 / yMax) * 5;
-                tempPath.moveTo(finalX, finalY);
-                for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
-                    finalX = ((Math.abs(xMax) + 1) - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * (400 / Math.abs(xMax)) * 10;
-                    finalY = ((yMax + 1) - countyCoords.get(k).get(i).get(j).get(1)) * (400 / yMax) * 5;
-                    tempPath.lineTo(finalX, finalY);
+        if (stateNum != 49 && stateNum != 50) {
+            for (int k = 0; k < 2; k++) {
+                Path2D tempPath = new Path2D.Double();
+                for (int i = 0; i < countyCoords.get(k).size(); i++) {
+                    double finalX = ((Math.abs(xMax) + 1) - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * (400 / Math.abs(xMax)) * 10;
+                    double finalY = ((yMax + 1) - countyCoords.get(k).get(i).get(0).get(1)) * (400 / yMax) * 5;
+                    tempPath.moveTo(finalX, finalY);
+                    for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
+                        finalX = ((Math.abs(xMax) + 1) - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * (400 / Math.abs(xMax)) * 10;
+                        finalY = ((yMax + 1) - countyCoords.get(k).get(i).get(j).get(1)) * (400 / yMax) * 5;
+                        tempPath.lineTo(finalX, finalY);
+                    }
+                }
+                tempPath.closePath();
+                countyPaths.add(tempPath);
+            }
+            for (int i = 0; i < stateCoords.size(); i++) {
+                double finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(0).get(0))) * ((400 / Math.abs(xMax))) * 10;
+                double finalY = ((yMax + 1) - stateCoords.get(i).get(0).get(1)) * (400 / yMax) * 5;
+                path.moveTo(finalX, finalY);
+                for (int j = 1; j < stateCoords.get(i).size(); j++) {
+                    finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(j).get(0))) * ((400 / Math.abs(xMax))) * 10;
+                    finalY = ((yMax + 1) - stateCoords.get(i).get(j).get(1)) * (400 / yMax) * 5;
+                    path.lineTo(finalX, finalY);
                 }
             }
-            tempPath.closePath();
-            countyPaths.add(tempPath);
+            path.closePath();
         }
-        for (int i = 0; i < stateCoords.size(); i++) {
-            double finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(0).get(0))) * ((400 / Math.abs(xMax))) * 10;
-            double finalY = ((yMax + 1) - stateCoords.get(i).get(0).get(1)) * (400 / yMax) * 5;
-            path.moveTo(finalX, finalY);
-            for (int j = 1; j < stateCoords.get(i).size(); j++) {
-                finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(j).get(0))) * ((400 / Math.abs(xMax))) * 10;
-                finalY = ((yMax + 1) - stateCoords.get(i).get(j).get(1)) * (400 / yMax) * 5;
-                path.lineTo(finalX, finalY);
+        else if (stateNum == 50) {
+            for (int k = 0; k < 2; k++) {
+                Path2D tempPath = new Path2D.Double();
+                for (int i = 0; i < countyCoords.get(k).size(); i++) {
+                    double finalX = ((Math.abs(xMax) + 1) - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * 50;
+                    double finalY = ((yMax + 1) - countyCoords.get(k).get(i).get(0).get(1)) * 50;
+                    tempPath.moveTo(finalX, finalY);
+                    for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
+                        finalX = ((Math.abs(xMax) + 1) - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * 50;
+                        finalY = ((yMax + 1) - countyCoords.get(k).get(i).get(j).get(1)) * 50;
+                        tempPath.lineTo(finalX, finalY);
+                    }
+                }
+                tempPath.closePath();
+                countyPaths.add(tempPath);
             }
+            for (int i = 0; i < stateCoords.size(); i++) {
+                double finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(0).get(0))) * 50;
+                double finalY = ((yMax + 1) - stateCoords.get(i).get(0).get(1)) * 50;
+                path.moveTo(finalX, finalY);
+                for (int j = 1; j < stateCoords.get(i).size(); j++) {
+                    finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(j).get(0))) * 50;
+                    finalY = ((yMax + 1) - stateCoords.get(i).get(j).get(1)) * 50;
+                    path.lineTo(finalX, finalY);
+                }
+            }
+            System.out.println("Hawaii coords: " + path.getBounds().getLocation().x + "," + path.getBounds().getLocation().y);
+            path.closePath();
+        }
+        else {
+            for (int k = 0; k < 2; k++) {
+                Path2D tempPath = new Path2D.Double();
+                for (int i = 0; i < countyCoords.get(k).size(); i++) {
+                    double finalX = (179 - Math.abs(countyCoords.get(k).get(i).get(0).get(0))) * (400 / Math.abs(xMax)) * 10;
+                    double finalY = (30 - countyCoords.get(k).get(i).get(0).get(1)) * (400 / yMax) * 5;
+                    tempPath.moveTo(finalX, finalY);
+                    for (int j = 1; j < countyCoords.get(k).get(i).size(); j++) {
+                        finalX = (179 - Math.abs(countyCoords.get(k).get(i).get(j).get(0))) * (400 / Math.abs(xMax)) * 10;
+                        finalY = (30 - countyCoords.get(k).get(i).get(j).get(1)) * (400 / yMax) * 5;
+                        tempPath.lineTo(finalX, finalY);
+                    }
+                }
+                tempPath.closePath();
+                AffineTransform at = new AffineTransform();
+                at.scale(-1.3,-1.3);
+                tempPath.transform(at);
+                AffineTransform at2 = new AffineTransform();
+                at2.rotate(Math.toRadians(90));
+                at2.translate(720,-30);
+                tempPath.transform(at2);
+                countyPaths.add(tempPath);
+            }
+            for (int i = 0; i < stateCoords.size(); i++) {
+                double finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(0).get(0))) * ((400 / Math.abs(xMax))) * 10;
+                double finalY = ((yMax + 1) - stateCoords.get(i).get(0).get(1)) * (400 / yMax) * 5;
+                path.moveTo(finalX, finalY);
+                for (int j = 1; j < stateCoords.get(i).size(); j++) {
+                    finalX = ((Math.abs(xMax) + 1) - Math.abs(stateCoords.get(i).get(j).get(0))) * ((400 / Math.abs(xMax))) * 10;
+                    finalY = ((yMax + 1) - stateCoords.get(i).get(j).get(1)) * (400 / yMax) * 5;
+                    path.lineTo(finalX, finalY);
+                }
+            }
+            path.closePath();
+            AffineTransform at = new AffineTransform();
+            at.scale(-0.78,0.78);
+            at.translate(-800,0);
+            path.transform(at);
         }
     }
     public void getStatePath(int stateNum) {

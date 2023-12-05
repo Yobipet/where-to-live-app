@@ -17,6 +17,7 @@ Methods: +pressStart(): void
          +pressExit(): void
  */
 
+import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -27,22 +28,24 @@ public class Menu {
     private boolean mapFlag = false;
     private Frame menu = new Frame();
     Menu() {
-        Frame f = new Frame();
+        JFrame f = new JFrame();
         f.setSize(1600,800);
-        Label l1 = new Label("Where To Live App");
-        l1.setBounds(700, 100, 100, 50);
+        JLabel l1 = new JLabel("Where To Live App");
+        l1.setBounds(0, 100, 1600, 50);
+        l1.setFont(new Font("Serif",Font.PLAIN,20));
+        l1.setHorizontalAlignment(l1.CENTER);
         f.add(l1);
-        Button b1 = new Button("START");
-        b1.setBounds(700, 200, 100, 50);
+        JButton b1 = new JButton("START");
+        b1.setBounds(750, 200, 100, 50);
         f.add(b1);
-        Button b2 = new Button("MAP");
-        b2.setBounds(700, 300, 100, 50);
+        JButton b2 = new JButton("MAP");
+        b2.setBounds(750, 300, 100, 50);
         f.add(b2);
-        Button b3 = new Button("CREDITS");
-        b3.setBounds(700, 400, 100, 50);
+        JButton b3 = new JButton("CREDITS");
+        b3.setBounds(750, 400, 100, 50);
         f.add(b3);
-        Button b4 = new Button("EXIT");
-        b4.setBounds(700, 500, 100, 50);
+        JButton b4 = new JButton("EXIT");
+        b4.setBounds(750, 500, 100, 50);
         f.add(b4);
         f.setLayout(null);
         f.setVisible(true);

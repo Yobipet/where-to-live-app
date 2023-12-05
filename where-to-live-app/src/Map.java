@@ -65,7 +65,6 @@ public class Map extends JPanel {
     private ArrayList<Integer> tierList;
     private ArrayList<String> stateNames = new ArrayList<>();
     private ArrayList<ArrayList<String>> regionDatabase = new ArrayList<>();
-    private boolean mainlandDrawn = false;
     private boolean backFlag = false;
     public Map(ArrayList<Integer> masterTierList, ArrayList<String> stateNameList, ArrayList<ArrayList<String>> database) {
         // INITIALIZES ARRAYLIST VALUES
@@ -143,30 +142,109 @@ public class Map extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Frame tempStateWindow = new Frame();
                 MapComponent mc = new MapComponent(true,49);
-                JPanel stateViewPanel = new JPanel(new FlowLayout()) {
+                JPanel stateViewPanel = new JPanel(new BorderLayout()) {
                     @Override
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
-                        Graphics2D county = (Graphics2D) g;
-                        county.setColor(Color.GRAY);
-                        county.fill(mc.getPaths());
-                        county.setColor(tierListColor(tierList.get(((49) * 2 - 1) - 1)));
-                        System.out.println("County 1 ranking: " + (tierList.get(((49) * 2 - 1) - 1)));
-                        county.fill(mc.getCountyPaths().get(0));
-                        county.setColor(tierListColor(tierList.get((49) * 2 - 1)));
-                        System.out.println("County 2 ranking: " + (tierList.get((49) * 2 - 1)));
-                        county.fill(mc.getCountyPaths().get(1));
-                        county.setColor(Color.BLACK);
-                        county.draw(mc.getPaths());
-                        county.draw(mc.getCountyPaths().get(0));
-                        county.draw(mc.getCountyPaths().get(1));
+                        Graphics2D scaledCounties = (Graphics2D) g;
+                        scaledCounties.setColor(Color.GRAY);
+                        scaledCounties.fill(mc.getPaths());
+                        scaledCounties.setColor(Color.BLACK);
+                        scaledCounties.draw(mc.getPaths());
+                        scaledCounties.setColor(tierListColor(tierList.get(((49) * 2 - 1) - 1)));
+                        scaledCounties.fill(mc.getCountyPaths().get(0));
+                        scaledCounties.setColor(tierListColor(tierList.get((49) * 2 - 1)));
+                        scaledCounties.fill(mc.getCountyPaths().get(1));
+                        scaledCounties.setColor(Color.BLACK);
+                        scaledCounties.draw(mc.getCountyPaths().get(0));
+                        scaledCounties.draw(mc.getCountyPaths().get(1));
                     }
                     @Override
                     public Dimension getPreferredSize() {
                         return new Dimension(700, 700);
                     }
                 };
-                tempStateWindow.add(stateViewPanel);
+                JButton countyButton1 = new JButton() {
+                    Shape polygon;
+                    @Override
+                    public boolean contains(int x, int y) {
+                        if (polygon == null || !polygon.getBounds().equals(getBounds())) {
+                            polygon = new Area(mc.getCountyPaths().get(0));
+                        }
+                        return polygon.contains(x, y);
+                    }
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return new Dimension(700, 700);
+                    }
+                };
+                countyButton1.setOpaque(false);
+                countyButton1.setContentAreaFilled(false);
+                countyButton1.setBorderPainted(false);
+                stateViewPanel.add(countyButton1, BorderLayout.CENTER);
+                countyButton1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        new PopUpWindow(((49) * 2 - 1));
+                    }
+                });
+                countyButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseEntered (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: " + regionDatabase.get(((49) * 2 - 1) - 1).get(0));
+                    }
+
+                    public void mouseExited (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: none");
+                    }
+                });
+                JButton countyButton2 = new JButton() {
+                    Shape polygon;
+                    @Override
+                    public boolean contains(int x, int y) {
+                        if (polygon == null || !polygon.getBounds().equals(getBounds())) {
+                            polygon = new Area(mc.getCountyPaths().get(1));
+                        }
+                        return polygon.contains(x, y);
+                    }
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return new Dimension(700, 700);
+                    }
+                };
+                countyButton2.setOpaque(false);
+                countyButton2.setContentAreaFilled(false);
+                countyButton2.setBorderPainted(false);
+                stateViewPanel.add(countyButton2, BorderLayout.CENTER);
+                countyButton2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        new PopUpWindow(((49) * 2 - 1) + 1);
+                    }
+                });
+                countyButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseEntered (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: " + regionDatabase.get((49) * 2 - 1).get(0));
+                    }
+
+                    public void mouseExited (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: none");
+                    }
+                });
+                stateViewPanel.add(countySelected, BorderLayout.SOUTH);
+                tempStateWindow.setLayout(new BorderLayout());
+                JLabel stateTitle = new JLabel(" " + stateNames.get(48));
+                stateTitle.setFont(new Font("Serif",Font.PLAIN,20));
+                tempStateWindow.add(stateTitle, BorderLayout.NORTH);
+                tempStateWindow.add(stateViewPanel, BorderLayout.CENTER);
+                JButton backButton = new JButton("BACK");
+                backButton.setBounds(1400, 700, 100, 50);
+                tempStateWindow.add(backButton, BorderLayout.SOUTH);
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tempStateWindow.hide();
+                    }
+                });
                 tempStateWindow.pack();
                 tempStateWindow.setVisible(true);
             }
@@ -220,7 +298,7 @@ public class Map extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Frame tempStateWindow = new Frame();
                 MapComponent mc = new MapComponent(true,50);
-                JPanel stateViewPanel = new JPanel(new FlowLayout()) {
+                JPanel stateViewPanel = new JPanel(new BorderLayout()) {
                     @Override
                     protected void paintComponent(Graphics g) {
                         super.paintComponent(g);
@@ -228,10 +306,8 @@ public class Map extends JPanel {
                         county.setColor(Color.GRAY);
                         county.fill(mc.getPaths());
                         county.setColor(tierListColor(tierList.get(((50) * 2 - 1) - 1)));
-                        System.out.println("County 1 ranking: " + (tierList.get(((50) * 2 - 1) - 1)));
                         county.fill(mc.getCountyPaths().get(0));
                         county.setColor(tierListColor(tierList.get((50) * 2 - 1)));
-                        System.out.println("County 2 ranking: " + (tierList.get((50) * 2 - 1)));
                         county.fill(mc.getCountyPaths().get(1));
                         county.setColor(Color.BLACK);
                         county.draw(mc.getPaths());
@@ -243,7 +319,87 @@ public class Map extends JPanel {
                         return new Dimension(700, 700);
                     }
                 };
-                tempStateWindow.add(stateViewPanel);
+                JButton countyButton1 = new JButton() {
+                    Shape polygon;
+                    @Override
+                    public boolean contains(int x, int y) {
+                        if (polygon == null || !polygon.getBounds().equals(getBounds())) {
+                            polygon = new Area(mc.getCountyPaths().get(0));
+                        }
+                        return polygon.contains(x, y);
+                    }
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return new Dimension(700, 700);
+                    }
+                };
+                countyButton1.setOpaque(false);
+                countyButton1.setContentAreaFilled(false);
+                countyButton1.setBorderPainted(false);
+                stateViewPanel.add(countyButton1, BorderLayout.CENTER);
+                countyButton1.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        new PopUpWindow(((50) * 2 - 1));
+                    }
+                });
+                countyButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseEntered (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: " + regionDatabase.get(((50) * 2 - 1) - 1).get(0));
+                    }
+
+                    public void mouseExited (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: none");
+                    }
+                });
+                JButton countyButton2 = new JButton() {
+                    Shape polygon;
+                    @Override
+                    public boolean contains(int x, int y) {
+                        if (polygon == null || !polygon.getBounds().equals(getBounds())) {
+                            polygon = new Area(mc.getCountyPaths().get(1));
+                        }
+                        return polygon.contains(x, y);
+                    }
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return new Dimension(700, 700);
+                    }
+                };
+                countyButton2.setOpaque(false);
+                countyButton2.setContentAreaFilled(false);
+                countyButton2.setBorderPainted(false);
+                stateViewPanel.add(countyButton2, BorderLayout.CENTER);
+                countyButton2.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        new PopUpWindow(((50) * 2 - 1) + 1);
+                    }
+                });
+                countyButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseEntered (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: " + regionDatabase.get((50) * 2 - 1).get(0));
+                    }
+
+                    public void mouseExited (java.awt.event.MouseEvent evt){
+                        countySelected.setText("  County Selected: none");
+                    }
+                });
+                stateViewPanel.add(countySelected, BorderLayout.SOUTH);
+                tempStateWindow.setLayout(new BorderLayout());
+                JLabel stateTitle = new JLabel(" " + stateNames.get(49));
+                stateTitle.setFont(new Font("Serif",Font.PLAIN,20));
+                tempStateWindow.add(stateTitle, BorderLayout.NORTH);
+                tempStateWindow.add(stateViewPanel, BorderLayout.CENTER);
+                JButton backButton = new JButton("BACK");
+                backButton.setBounds(1400, 700, 100, 50);
+                tempStateWindow.add(backButton, BorderLayout.SOUTH);
+                backButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        tempStateWindow.hide();
+                    }
+                });
                 tempStateWindow.pack();
                 tempStateWindow.setVisible(true);
             }
@@ -322,10 +478,8 @@ public class Map extends JPanel {
                             county.setColor(Color.GRAY);
                             county.fill(mc.getPaths());
                             county.setColor(tierListColor(tierList.get(((finalK + 1) * 2 - 1) - 1)));
-                            System.out.println("County 1 ranking: " + (tierList.get(((finalK + 1) * 2 - 1) - 1)));
                             county.fill(mc.getCountyPaths().get(0));
                             county.setColor(tierListColor(tierList.get((finalK + 1) * 2 - 1)));
-                            System.out.println("County 2 ranking: " + (tierList.get((finalK + 1) * 2 - 1)));
                             county.fill(mc.getCountyPaths().get(1));
                             county.setColor(Color.BLACK);
                             county.draw(mc.getPaths());
@@ -411,7 +565,7 @@ public class Map extends JPanel {
                     });
                     stateViewPanel.add(countySelected, BorderLayout.SOUTH);
                     tempStateWindow.setLayout(new BorderLayout());
-                    JLabel stateTitle = new JLabel(stateNames.get(finalK));
+                    JLabel stateTitle = new JLabel(" " + stateNames.get(finalK));
                     stateTitle.setFont(new Font("Serif",Font.PLAIN,20));
                     tempStateWindow.add(stateTitle, BorderLayout.NORTH);
                     tempStateWindow.add(stateViewPanel, BorderLayout.CENTER);
