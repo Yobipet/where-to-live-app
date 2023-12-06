@@ -131,11 +131,11 @@ public class Manager {
     public void formatUserAnswers() {
         for (int i = 0; i < 100; i++) {
             ArrayList<Double> tempArray = new ArrayList<>();
-            tempArray.add((Double.parseDouble(answers.get(0)) - Double.parseDouble(database.get(i).get(2)))/Double.parseDouble(answers.get(0)));
+            tempArray.add(0 - ((Double.parseDouble(answers.get(0)) - Double.parseDouble(database.get(i).get(2)))/Double.parseDouble(answers.get(0))));
             if (tempArray.get(0) < 0) {
                 tempArray.set(0,0.0);
             }
-            tempArray.add((Double.parseDouble(answers.get(1)) - Double.parseDouble(database.get(i).get(3)))/Double.parseDouble(answers.get(1)));
+            tempArray.add(0 - ((Double.parseDouble(answers.get(1)) - Double.parseDouble(database.get(i).get(3)))/Double.parseDouble(answers.get(1))));
             if (tempArray.get(1) < 0) {
                 tempArray.set(1,0.0);
             }
@@ -157,86 +157,89 @@ public class Manager {
                 tempArray.add(0.0);
             }
             double popDensityVal = Double.parseDouble(database.get(i).get(10));
+            if (answers.get(6).contains("Abstain")) {
+                tempArray.add(0.0);
+            }
             if (answers.get(6).contains("Very Low")) {
                 if (popDensityVal <= 114.3) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(1.0);
+                    tempArray.add(2.0);
                 }
             }
             if (answers.get(6).contains("Low") && !answers.get(6).contains("Very")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
             }
             if (answers.get(6).contains("Average")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
             }
             if (answers.get(6).contains("High") && !answers.get(6).contains("Very")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
             }
             if (answers.get(6).contains("Very High")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(1.0);
+                    tempArray.add(2.0);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 1692.4) {
                     tempArray.add(0.0);
@@ -248,22 +251,35 @@ public class Manager {
             else {
                 tempArray.add(0.0);
             }
-            tempArray.add(Math.abs(Double.parseDouble(answers.get(8))-Double.parseDouble(database.get(i).get(13)))/5);
+            if (answers.get(8).contains("Abstain")) {
+                tempArray.add(0.0);
+            }
+            else {
+                tempArray.add(Math.abs(Double.parseDouble(answers.get(8)) - Double.parseDouble(database.get(i).get(13))) / 5);
+            }
             if (answers.get(9).contains("Yes")) {
                 tempArray.add(Math.abs((10/Double.parseDouble(database.get(i).get(14)))-0.127));
             }
             else {
                 tempArray.add(0.0);
             }
-            tempArray.add(Math.abs(Double.parseDouble(answers.get(10))-Double.parseDouble(database.get(i).get(16)))/5);
-            if (answers.get(11).contains("Medicinally")) {
-                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(18))/2)-0.5));
-            }
-            else if (answers.get(11).contains("Recreationally")) {
-                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(17))/2)-0.5));
+            if (answers.get(10).contains("Abstain")) {
+                tempArray.add(0.0);
             }
             else {
+                tempArray.add(Math.abs(Double.parseDouble(answers.get(10)) - Double.parseDouble(database.get(i).get(16))) / 2.5);
+            }
+            if (answers.get(11).contains("Abstain")) {
                 tempArray.add(0.0);
+            }
+            else if (answers.get(11).contains("Medicinally")) {
+                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(18))/2)-1.0));
+            }
+            else if (answers.get(11).contains("Recreationally")) {
+                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(17))/2)-0.75));
+            }
+            else {
+                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(18))/2)));
             }
             if (answers.get(12).contains("null") || answers.get(13).isEmpty()) {
                 tempArray.add(0.0);
