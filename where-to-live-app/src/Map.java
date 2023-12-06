@@ -78,11 +78,8 @@ public class Map extends JPanel {
         // LOADS IN ALL MAPCOMPONENTS WITH PROPER INFORMATION
         for (int i = 1; i <= 50; i++) {
             mapPieces.add(new MapComponent(false, i));
-            System.out.println("Loading state " + (i) + ".");
             path.add(mapPieces.get(i-1).getPaths());
-            System.out.println("State " + i + " loaded.");
         }
-        System.out.println("Loaded map path from component instance.");
         initializePanels();
     }
     private void initializePanels() {

@@ -24,6 +24,9 @@ Methods: +formatUserAnswers(): void
  */
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -34,27 +37,51 @@ public class Manager {
     // Attributes
     private ArrayList<ArrayList<Double>> matchPercentages = new ArrayList<>();
     private ArrayList<Integer> tierList = new ArrayList<>();
-    private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
     private File statesFile = new File("StateNames.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
     private ArrayList<String> stateNames = new ArrayList<>();
     private ArrayList<String> answers;
-    private boolean qFlag = false;
+    private boolean qFlag;
     private boolean mapFlag = false;
 
     // Methods
     public void runProgram() {
         parseDatabases();
+        this.qFlag = true;
         Menu menu = new Menu();
-        int i = 0;
         while (!menu.getFinishFlag()) {
             if (menu.getStartFlag()) {
                 createQuestionnaire();
                 menu.setStartFlag(false);
             }
             if (mapFlag) {
-                createMap();
+                if (!qFlag) {
+                    matchPercentages = new ArrayList<>();
+                    formatUserAnswers();
+                    createTierLevels();
+                    createMap();
+                }
+                else {
+                    JFrame mapErrorWindow = new JFrame();
+                    JPanel mapErrorPanel = new JPanel(new BorderLayout());
+                    JLabel errorMessage = new JLabel("Please complete the questionnaire first.");
+                    errorMessage.setFont(new Font("Serif",Font.PLAIN,25));
+                    errorMessage.setHorizontalAlignment(errorMessage.CENTER);
+                    mapErrorPanel.add(errorMessage, BorderLayout.CENTER);
+                    JButton backButton = new JButton("Back");
+                    mapErrorPanel.add(backButton, BorderLayout.SOUTH);
+                    backButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            mapErrorWindow.hide();
+                        }
+                    });
+                    mapErrorWindow.add(mapErrorPanel);
+                    mapErrorWindow.setPreferredSize(new Dimension(600,600));
+                    mapErrorWindow.pack();
+                    mapErrorWindow.setVisible(true);
+                }
                 menu.setMapFlag(false);
             }
             mapFlag = menu.getMapFlag();
@@ -102,8 +129,6 @@ public class Manager {
         }
         mapFlag = questionnaire.getMapFlag();
         answers = questionnaire.getAnswers();
-        formatUserAnswers();
-        createTierLevels();
     }
     public void createMap() {
         try {
@@ -113,12 +138,10 @@ public class Manager {
         }
         JFrame mapFrame = new JFrame();
         Map map = new Map(tierList,stateNames,database);
-        System.out.println("Created frame.");
         mapFrame.add(map);
         mapFrame.pack();
         mapFrame.setLocationRelativeTo(null);
         mapFrame.setVisible(true);
-        System.out.println("Set to visible.");
         boolean backFlag = false;
         while (!backFlag) {
             backFlag = map.getBackFlag();
@@ -301,6 +324,7 @@ public class Manager {
         }
     }
     public void createTierLevels() {
+        tierList = new ArrayList<>();
         for (int i = 0; i < matchPercentages.size(); i++) {
             double percentsAdded = 0.0;
             for (int j = 0; j < matchPercentages.get(i).size(); j++) {
