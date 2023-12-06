@@ -24,6 +24,9 @@ Methods: +formatUserAnswers(): void
  */
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -34,27 +37,51 @@ public class Manager {
     // Attributes
     private ArrayList<ArrayList<Double>> matchPercentages = new ArrayList<>();
     private ArrayList<Integer> tierList = new ArrayList<>();
-    private MapData data;
     private File regionFile = new File("RegionDatabase.csv");
     private File statesFile = new File("StateNames.csv");
     private ArrayList<ArrayList<String>> database = new ArrayList<>();
     private ArrayList<String> stateNames = new ArrayList<>();
     private ArrayList<String> answers;
-    private boolean qFlag = false;
+    private boolean qFlag;
     private boolean mapFlag = false;
 
     // Methods
     public void runProgram() {
         parseDatabases();
+        this.qFlag = true;
         Menu menu = new Menu();
-        int i = 0;
         while (!menu.getFinishFlag()) {
             if (menu.getStartFlag()) {
                 createQuestionnaire();
                 menu.setStartFlag(false);
             }
             if (mapFlag) {
-                createMap();
+                if (!qFlag) {
+                    matchPercentages = new ArrayList<>();
+                    formatUserAnswers();
+                    createTierLevels();
+                    createMap();
+                }
+                else {
+                    JFrame mapErrorWindow = new JFrame();
+                    JPanel mapErrorPanel = new JPanel(new BorderLayout());
+                    JLabel errorMessage = new JLabel("Please complete the questionnaire first.");
+                    errorMessage.setFont(new Font("Serif",Font.PLAIN,25));
+                    errorMessage.setHorizontalAlignment(errorMessage.CENTER);
+                    mapErrorPanel.add(errorMessage, BorderLayout.CENTER);
+                    JButton backButton = new JButton("Back");
+                    mapErrorPanel.add(backButton, BorderLayout.SOUTH);
+                    backButton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            mapErrorWindow.hide();
+                        }
+                    });
+                    mapErrorWindow.add(mapErrorPanel);
+                    mapErrorWindow.setPreferredSize(new Dimension(600,600));
+                    mapErrorWindow.pack();
+                    mapErrorWindow.setVisible(true);
+                }
                 menu.setMapFlag(false);
             }
             mapFlag = menu.getMapFlag();
@@ -102,8 +129,6 @@ public class Manager {
         }
         mapFlag = questionnaire.getMapFlag();
         answers = questionnaire.getAnswers();
-        formatUserAnswers();
-        createTierLevels();
     }
     public void createMap() {
         try {
@@ -113,12 +138,10 @@ public class Manager {
         }
         JFrame mapFrame = new JFrame();
         Map map = new Map(tierList,stateNames,database);
-        System.out.println("Created frame.");
         mapFrame.add(map);
         mapFrame.pack();
         mapFrame.setLocationRelativeTo(null);
         mapFrame.setVisible(true);
-        System.out.println("Set to visible.");
         boolean backFlag = false;
         while (!backFlag) {
             backFlag = map.getBackFlag();
@@ -131,11 +154,11 @@ public class Manager {
     public void formatUserAnswers() {
         for (int i = 0; i < 100; i++) {
             ArrayList<Double> tempArray = new ArrayList<>();
-            tempArray.add((Double.parseDouble(answers.get(0)) - Double.parseDouble(database.get(i).get(2)))/Double.parseDouble(answers.get(0)));
+            tempArray.add(0 - ((Double.parseDouble(answers.get(0)) - Double.parseDouble(database.get(i).get(2)))/Double.parseDouble(answers.get(0))));
             if (tempArray.get(0) < 0) {
                 tempArray.set(0,0.0);
             }
-            tempArray.add((Double.parseDouble(answers.get(1)) - Double.parseDouble(database.get(i).get(3)))/Double.parseDouble(answers.get(1)));
+            tempArray.add(0 - ((Double.parseDouble(answers.get(1)) - Double.parseDouble(database.get(i).get(3)))/Double.parseDouble(answers.get(1))));
             if (tempArray.get(1) < 0) {
                 tempArray.set(1,0.0);
             }
@@ -157,86 +180,89 @@ public class Manager {
                 tempArray.add(0.0);
             }
             double popDensityVal = Double.parseDouble(database.get(i).get(10));
+            if (answers.get(6).contains("Abstain")) {
+                tempArray.add(0.0);
+            }
             if (answers.get(6).contains("Very Low")) {
                 if (popDensityVal <= 114.3) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(1.0);
+                    tempArray.add(2.0);
                 }
             }
             if (answers.get(6).contains("Low") && !answers.get(6).contains("Very")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
             }
             if (answers.get(6).contains("Average")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
             }
             if (answers.get(6).contains("High") && !answers.get(6).contains("Very")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
                     tempArray.add(0.0);
                 }
                 else if (popDensityVal > 1692.4) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
             }
             if (answers.get(6).contains("Very High")) {
                 if (popDensityVal <= 114.3) {
-                    tempArray.add(1.0);
+                    tempArray.add(2.0);
                 }
                 else if (popDensityVal > 114.3 && popDensityVal <= 261.8) {
-                    tempArray.add(0.75);
+                    tempArray.add(1.5);
                 }
                 else if (popDensityVal > 261.8 && popDensityVal <= 482.5) {
-                    tempArray.add(0.50);
+                    tempArray.add(1.0);
                 }
                 else if (popDensityVal > 482.5 && popDensityVal <= 1692.4) {
-                    tempArray.add(0.25);
+                    tempArray.add(0.5);
                 }
                 else if (popDensityVal > 1692.4) {
                     tempArray.add(0.0);
@@ -248,22 +274,35 @@ public class Manager {
             else {
                 tempArray.add(0.0);
             }
-            tempArray.add(Math.abs(Double.parseDouble(answers.get(8))-Double.parseDouble(database.get(i).get(13)))/5);
+            if (answers.get(8).contains("Abstain")) {
+                tempArray.add(0.0);
+            }
+            else {
+                tempArray.add(Math.abs(Double.parseDouble(answers.get(8)) - Double.parseDouble(database.get(i).get(13))) / 5);
+            }
             if (answers.get(9).contains("Yes")) {
                 tempArray.add(Math.abs((10/Double.parseDouble(database.get(i).get(14)))-0.127));
             }
             else {
                 tempArray.add(0.0);
             }
-            tempArray.add(Math.abs(Double.parseDouble(answers.get(10))-Double.parseDouble(database.get(i).get(16)))/5);
-            if (answers.get(11).contains("Medicinally")) {
-                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(18))/2)-0.5));
-            }
-            else if (answers.get(11).contains("Recreationally")) {
-                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(17))/2)-0.5));
+            if (answers.get(10).contains("Abstain")) {
+                tempArray.add(0.0);
             }
             else {
+                tempArray.add(Math.abs(Double.parseDouble(answers.get(10)) - Double.parseDouble(database.get(i).get(16))) / 2.5);
+            }
+            if (answers.get(11).contains("Abstain")) {
                 tempArray.add(0.0);
+            }
+            else if (answers.get(11).contains("Medicinally")) {
+                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(18))/2)-1.0));
+            }
+            else if (answers.get(11).contains("Recreationally")) {
+                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(17))/2)-0.75));
+            }
+            else {
+                tempArray.add(Math.abs((Double.parseDouble(database.get(i).get(18))/2)));
             }
             if (answers.get(12).contains("null") || answers.get(13).isEmpty()) {
                 tempArray.add(0.0);
@@ -285,6 +324,7 @@ public class Manager {
         }
     }
     public void createTierLevels() {
+        tierList = new ArrayList<>();
         for (int i = 0; i < matchPercentages.size(); i++) {
             double percentsAdded = 0.0;
             for (int j = 0; j < matchPercentages.get(i).size(); j++) {

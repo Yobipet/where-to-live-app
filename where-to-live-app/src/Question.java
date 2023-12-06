@@ -76,11 +76,11 @@ public class Question {
         if (qAnswers.get(3).equals("null")) {
             choices = new String[]{qAnswers.get(1), qAnswers.get(2)};
         }
-        else if (qAnswers.get(4).equals("null")) {
-            choices = new String[]{qAnswers.get(1), qAnswers.get(2), qAnswers.get(3)};
+        else if (qAnswers.get(5).equals("null")) {
+            choices = new String[]{qAnswers.get(1), qAnswers.get(2), qAnswers.get(3), qAnswers.get(4)};
         }
         else {
-            choices = new String[]{qAnswers.get(1), qAnswers.get(2), qAnswers.get(3), qAnswers.get(4), qAnswers.get(5)};
+            choices = new String[]{qAnswers.get(1), qAnswers.get(2), qAnswers.get(3), qAnswers.get(4), qAnswers.get(5), qAnswers.get(6)};
         }
         JComboBox question = new JComboBox(choices);
         question.setBounds(600,qNum * 50,600 / 2,40);
