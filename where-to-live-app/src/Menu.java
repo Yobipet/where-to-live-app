@@ -34,20 +34,22 @@ public class Menu {
     Menu() {
         Frame f = new Frame();
         f.setSize(1600,800);
-        Label l1 = new Label("Where To Live App");
-        l1.setBounds(700, 100, 100, 50);
+        JLabel l1 = new JLabel("Where To Live App");
+        l1.setFont(new Font("Serif",Font.PLAIN,25));
+        l1.setHorizontalAlignment(l1.CENTER);
+        l1.setBounds(550, 100, 500, 50);
         f.add(l1);
         Button b1 = new Button("START");
-        b1.setBounds(700, 200, 100, 50);
+        b1.setBounds(750, 200, 100, 50);
         f.add(b1);
         Button b2 = new Button("MAP");
-        b2.setBounds(700, 300, 100, 50);
+        b2.setBounds(750, 300, 100, 50);
         f.add(b2);
         Button b3 = new Button("CREDITS");
-        b3.setBounds(700, 400, 100, 50);
+        b3.setBounds(750, 400, 100, 50);
         f.add(b3);
         Button b4 = new Button("EXIT");
-        b4.setBounds(700, 500, 100, 50);
+        b4.setBounds(750, 500, 100, 50);
         f.add(b4);
         f.setLayout(null);
         f.setVisible(true);
