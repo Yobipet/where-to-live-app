@@ -47,19 +47,10 @@ Methods: +pressBack(): void
  */
 public class Map extends JPanel {
     private JFrame mapFrame;
-//    private JLayeredPane mainPanel;
     private JPanel mainPanel;
-//    private static JComboBox dropDown1;
-//    private static JComboBox dropDown2;
-    //private BufferedImage image;
-//    private Color fillColor;
     private JLabel stateSelected = new JLabel("  State Selected: none");
     private JLabel countySelected = new JLabel("  County Selected: none");
     private ArrayList<Path2D> path = new ArrayList<>();
-//    private int pathLength;
-//    private double[] coordinates = new double[2];
-//    private File statePath = new File("C:/Users/henry/Desktop/FloridaPath.txt");
-//    private int segmentNum;
     private ArrayList<MapComponent> mapPieces = new ArrayList<>();
     private ArrayList<Integer> stateTierList = new ArrayList<>();
     private ArrayList<Integer> tierList;
@@ -93,6 +84,12 @@ public class Map extends JPanel {
 
         // INITIALIZES THE HAWAII AND ALASKA PANELS
         JPanel otherStatesPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        try {
+            BufferedImage legend = ImageIO.read(new File("Legend.png"));
+            JLabel legendPanel = new JLabel(new ImageIcon(legend));
+            legendPanel.setPreferredSize(new Dimension(200,200));
+            otherStatesPanel.add(legendPanel);
+        } catch(IOException e) {}
         JPanel alaskaPanel = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -589,7 +586,7 @@ public class Map extends JPanel {
                 }
             });
         }
-        USAPanel.add(stateSelected, BorderLayout.SOUTH);
+        USAPanel.add(stateSelected, BorderLayout.PAGE_END);
         gbc.weighty = 0.0;
 
         gbc.gridx = 5;
