@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WTLA:jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="WTLA.jar">
+      <element id="module-output" name="WTLA" />
+    </root>
+  </artifact>
+</component>

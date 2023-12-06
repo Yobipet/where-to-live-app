@@ -1,0 +1,14 @@
+1) What Violent Crime Rate (per 100,000 people) are you comfortable with?
+2) What National Risk Index Score are you comfortable with?
+3) What average high temperature do you prefer?
+4) What average low temperature do you prefer?
+5) Do you have children that are in grade school?
+6) Are you okay with higher state tax?
+7) How densely populated would you prefer the location to be?
+8) Are you dependent on cost-effective healthcare?
+9) Do you have a preference for political stance? (1 = Democrat, 5 = Republican)?
+10) Are you a racial minority?
+11) How important is the quality of LGBT healthcare (1 = not important, 5 =  very important)?
+12) Would you like to live in an area where marijuana is legal?
+13) What is your age?
+14) What is your budget for cost of living? (USD)
